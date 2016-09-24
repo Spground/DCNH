@@ -1,7 +1,14 @@
 /*
- * 获取显示的页面内容
+ * 显示大创项目
  */
-function setCreateaccountPage(){
+function showProject(){
+	
+}
+
+/*
+ * 添加新账户
+ */
+function addNewAccount(){
 	$.ajax({
 		  url: '/getcreateaccountpage',
 	      type: 'get',
@@ -10,4 +17,11 @@ function setCreateaccountPage(){
 	    	  $("#show").html(data);
 	      }
 	});
+}
+
+/*
+	查看账户
+ */
+function showAccount(){
+	
 }

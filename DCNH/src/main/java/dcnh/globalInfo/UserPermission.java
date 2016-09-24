@@ -26,4 +26,7 @@ public enum UserPermission implements GenericEnum{
 		return name;
 	}
 	
+	public static UserPermission stringToEnum(String name){
+		
+	}
 }

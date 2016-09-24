@@ -1,3 +1,6 @@
+/*
+ * 获取显示的页面内容
+ */
 function setCreateaccountPage(){
 	$.ajax({
 		  url: '/getcreateaccountpage',

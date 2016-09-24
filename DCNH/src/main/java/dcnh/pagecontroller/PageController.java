@@ -3,6 +3,10 @@ package dcnh.pagecontroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+/*
+ * 获取html页面
+ */
 @Controller
 public class PageController {
 	

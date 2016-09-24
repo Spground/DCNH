@@ -13,7 +13,9 @@ import dcnh.handler.LoginHandler;
 import dcnh.mode.BaseUser;
 import dcnh.mode.ResponseMessage;
 import dcnh.mode.UserInfo;
-
+/*
+ * 账户操作相关
+ */
 @Controller
 public class UserController {
 	
