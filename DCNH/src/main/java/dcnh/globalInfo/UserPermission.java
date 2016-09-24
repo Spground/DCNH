@@ -27,6 +27,12 @@ public enum UserPermission implements GenericEnum{
 	}
 	
 	public static UserPermission stringToEnum(String name){
-		
+		UserPermission[] permissions = UserPermission.values();
+		for(UserPermission permission : permissions){
+			if(permission.getName().equals(name)){
+				return permission;
+			}
+		}
+		return null;
 	}
 }
