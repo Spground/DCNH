@@ -15,15 +15,7 @@ public class PageController {
 		return "login";
 	}
 	
-	@RequestMapping("/superadmin")
-	public String getSuperAdminPage(){
-		return "/superadmin/superadmin";
-	}
 	
-	@RequestMapping("/getaccountmanagepage")
-	public String getAccountManagePage(){
-		return "/superadmin/accountManage";
-	}
 	
 	@RequestMapping("/getschooladminpage")
 	public String getSchoolAdminPage(){
@@ -40,9 +32,11 @@ public class PageController {
 		return "userinfo";
 	}
 	
-	@RequestMapping("/getcreateaccountpage")
-	public String getcreateAccount(){
-		return "/superadmin/createaccount";
+	
+	@RequestMapping("/getshowuserinfopage")
+	public String getUserInfoPage(){
+		return "/superadmin/showaccount";
 	}
+	
 	
 }

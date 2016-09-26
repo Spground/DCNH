@@ -1,14 +1,21 @@
 package dcnh.handler;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import dcnh.cache.SchoolCache;
 import dcnh.dbservice.UserDBService;
 import dcnh.globalInfo.ResponseCode;
+import dcnh.globalInfo.SessionKey;
 import dcnh.globalInfo.UserPermission;
 import dcnh.mode.BaseUser;
 import dcnh.mode.ResponseMessage;
+import dcnh.mode.UserInfo;
 import dcnh.myutil.SHA256;
 
 /*
@@ -48,6 +55,46 @@ public class AccountManageHandler {
 			response.setMessage("添加失败");
 		}
 		return response;
+	}
+	
+	/*public ResponseMessage addNewuser(String userName,String passowrd,String school,String permission,
+			int paper,int project,int startup,int creative){
+		
+		
+		
+	}*/
+	
+	public ResponseMessage deleteAccount(HttpSession session,String userName){
+		ResponseMessage responseMessage = new ResponseMessage();
+		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+		if(user!=null && user.getUserName().equals(userName)){
+			responseMessage.setCode(ResponseCode.FAILED.ordinal());
+			responseMessage.setMessage("不能删除当前登录用户");
+			return responseMessage;
+		}
+		
+		int result = userDBService.deleteUser(userName);
+		if(result>0){
+			responseMessage.setCode(ResponseCode.SUCCESS.ordinal());
+			responseMessage.setMessage("删除用户成功");
+			return responseMessage;
+		}
+		else{
+			responseMessage.setCode(ResponseCode.FAILED.ordinal());
+			responseMessage.setMessage("删除用户失败");
+			return responseMessage;
+		}
+	}
+	
+	public List<UserInfo> getAllUserInfo(BaseUser user,String permission){
+		List<UserInfo> userList = new LinkedList<UserInfo>();
+		if(user==null || !user.getPermission().equals(UserPermission.SUPERADMIN)){
+			return userList;
+		}
+		UserPermission userPermission = UserPermission.stringToEnum(permission);
+		if(userPermission==null) return userList;
+		userList = userDBService.getAllUserInfo(userPermission);
+		return userList;
 	}
 	
 	private boolean checkUserInfo(BaseUser user,String permission,ResponseMessage response){

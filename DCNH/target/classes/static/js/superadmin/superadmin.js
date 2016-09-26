@@ -1,6 +1,17 @@
 /*
  * 显示大创项目
  */
+
+var list = [
+		{
+			userName:"name",
+			school:"school",
+			phoneNumber:"1234",
+			email:"12@qq.com"
+		}
+];
+
+var showUser;
 function accountManage(){
 	 setAccountMangePage();
 }
@@ -43,8 +54,20 @@ function addNewAccount(){
 	var password1 = $("#password1").val();
 	var password2 = $("#password2").val();
 	var premission=$("#permission").find("option:selected").text();
+	
 	if(!check()){
 		return;
+	}
+	
+	if(premission==""){
+		var paper = $("#paper").val();
+		var project = $("#project").val();
+		var startup = $("#startup").val();
+		var creative = $("#creative").val();
+		$.ajax({
+			
+		});
+		
 	}
 	
 	var param= {
@@ -107,3 +130,92 @@ function clear(){
 	$("#password1").val("");
 	$("#password2").val("");
 }
+
+/*
+ * 获取指定类型的所有账户的信息
+ */
+function getAllUserInfo(){
+	var permission=$("#permission").find("option:selected").text();
+	var param = {
+			permission:permission
+	}
+	$.ajax({
+		  url: '/getalluserinfo',
+	      type: 'get',
+	      dataType: 'json',
+	      data:param,
+	      success: function(data){
+	    	 
+	    	  showUser.userList = data;
+	      }
+	});
+}
+
+/*
+ * 显示账户信息
+ */
+function showUserInfo(){
+	$.ajax({
+		  url: '/getshowuserinfopage',
+	      type: 'get',
+	      dataType: 'text',
+	      success: function(data){
+	    	  $("#show").html(data);
+	    	  showUser  = new Vue({
+	    			el:'#userTable',
+	    			data:{
+	    				userList:list
+	    			},
+	    			methods:{
+	    				deleteAccount:function(index){
+	    					if(index >= this.userList[index].length){
+	    						return;
+	    					}
+	    					//this.rooms[index].roomId
+	    					var userName = this.userList[index].userName;//thisuserList[index].userName;
+	    					
+	    					$.ajax({
+	    						  url: '/deleteuser',
+	    					      type: 'get',
+	    					      dataType: 'json',
+	    					      data:{
+	    					    	  userName:userName
+	    					      },
+	    					      success: function(data){
+	    					    	 if(data.code==0)
+	    					    	 {
+	    					    		 alert(data.message);
+	    					    		/* if (index !== -1) {
+	    					    		   this.items.splice(index, 1)
+	    					    		 }*/
+	    					    	/*	 var newArray = new Array();
+	    					    		 for(var i in this.userList){
+	    					    			 if(i!=index){
+	    					    				 newArray.add(userList[i]);
+	    					    			 }
+	    					    		 }
+	    					    		 this.userList = newArray;
+	    					    		 alert("heheh");*/
+	    					    		 showUserInfo();
+	    					    	 }
+	    					    	 else{
+	    					    		 alert(data.message);
+	    					    	 }
+	    					    	 
+	    					      }
+	    					});
+	    				}
+	    			}
+	    		});
+	    	  getAllUserInfo();
+	      }
+	});
+}
+
+/*
+ * 
+*/
+function showProjectManage(){
+	
+}
+

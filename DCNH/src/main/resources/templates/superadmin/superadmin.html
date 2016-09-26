@@ -24,8 +24,10 @@
 		<link href="/css/dashboard.css" rel="stylesheet"></link> 
 		<link href="/css/bootstrap-theme.min.css" rel="stylesheet"></link> 
 		<link href="/css/bootstrap.min.css" rel="stylesheet"></link> 
+		
 		<script type='text/javascript' src="/js/getcookie.js"></script>
 		<script type='text/javascript' src="/js/jquery-3.1.0.min.js"></script>	
+		<script type='text/javascript' src="/js/vue.js"></script>
 		<script type='text/javascript' src="/js/superadmin/superadmin.js"></script>	
 		
     </head>   
@@ -87,13 +89,13 @@
 			</a> 
 			
 			
-			<a href="/admin/project_manage/" class="menu-button-middle">
+			<a href="#" onclick="projectManage()" class="menu-button-middle">
 				<span class="glyphicon glyphicon-th-large">&nbsp;项目分配</span>
 			</a>
 				
 				
 			
-				<a href="/admin/user_request/" class="menu-button-middle"><span
+				<a href="#" onclick="" class="menu-button-middle"><span
 					class="glyphicon glyphicon-th">&nbsp;评价查询</span></a>
 				<a href="/admin/user_authority/" class="menu-button-middle"><span
 					class="glyphicon glyphicon-th">&nbsp;结果导出</span></a>
@@ -114,8 +116,8 @@
 	
 	  <div id="contains" class="col-sm-9 col-md-10 sidebar" >
 	   <button  type="button" class="btn btn-success" onclick="setCreateaccountPage()">添加账户</button>
-	   <button type="button" class="btn btn-success" onclick="">查看已有账户</button>
-	    <select class="selectpicker">
+	   <button type="button" class="btn btn-success" onclick="showUserInfo()">查看已有账户</button>
+	    <select id="permission" class="selectpicker">
 	   	  <option>系统管理员</option>
 		  <option>校级管理员</option>
 		  <option>专家账户</option>

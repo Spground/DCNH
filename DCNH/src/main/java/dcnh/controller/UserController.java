@@ -1,5 +1,7 @@
 package dcnh.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,29 @@ public class UserController {
 		ResponseMessage response  = accountManageHandler.addNewuser(userName,password,school,permission);
 		return response;
 	}
+	
+	@RequestMapping("/deleteuser")
+	@ResponseBody
+	public ResponseMessage deleteAccount(HttpSession session,@RequestParam String userName){
+		return accountManageHandler.deleteAccount(session, userName);
+	}
+	
+	@RequestMapping("/getalluserinfo")
+	@ResponseBody
+	public List<UserInfo> getAllUserInfo(HttpSession session,@RequestParam String permission){
+		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+		return accountManageHandler.getAllUserInfo(user,permission);
+	}
+	
+	@RequestMapping("/addschoolUser")
+	@ResponseBody
+	public ResponseMessage addNewAccount(@RequestParam String userName,@RequestParam String password,
+			@RequestParam  String school,@RequestParam String  permission,
+			@RequestParam int paper,@RequestParam int project,@RequestParam int startup,
+			@RequestParam int creative){
+		
+	}
+	
 	
 	
 }
