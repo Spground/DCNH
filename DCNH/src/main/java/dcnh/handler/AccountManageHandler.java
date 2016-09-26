@@ -57,12 +57,12 @@ public class AccountManageHandler {
 		return response;
 	}
 	
-	/*public ResponseMessage addNewuser(String userName,String passowrd,String school,String permission,
+	public ResponseMessage addNewuser(String userName,String passowrd,String school,String permission,
 			int paper,int project,int startup,int creative){
 		
 		
 		
-	}*/
+	}
 	
 	public ResponseMessage deleteAccount(HttpSession session,String userName){
 		ResponseMessage responseMessage = new ResponseMessage();
