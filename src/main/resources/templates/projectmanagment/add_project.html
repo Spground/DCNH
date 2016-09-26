@@ -1,0 +1,103 @@
+<div>
+	<div class="row">
+		<form class="form-horizontal" role="form" action="/addnewproject"
+			method="post">
+
+			<div class="form-group form-group-small">
+				<label for="category" class="col-sm-2 control-label">一级类别</label>
+				<div class="col-sm-10 col-md-6">
+					<select class="form-control " id="category" name="category">
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group form-group-small">
+				<label for="subcategory" class="col-sm-2 control-label">二级类别</label>
+				<div class="col-sm-10 col-md-6">
+					<select class="form-control " id="subcategory" name="subcategory">
+						<option>----选择二级类别----</option>
+						<option>理学</option>
+						<option>工学</option>
+						<option>管理学</option>
+						<option>文学</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- 学校 -->
+			<div class="form-group form-group-small">
+				<label for="school" class="col-sm-2 control-label">学校</label>
+				<div class="col-sm-10 col-md-6">
+					<input type="text" class="form-control" id="school" name="school"
+						value="大连理工大学" placeholder="学校" readonly="readonly" />
+				</div>
+			</div>
+
+			<!-- 指导教师 -->
+			<div class="form-group form-group-small">
+				<label for="teacher" class="col-sm-2 control-label">指导教师</label>
+				<div class="col-md-6">
+					<input type="text" class="form-control" id="teacher" name="teacher"
+						required="required" placeholder="指导教师" />
+				</div>
+			</div>
+
+			<!-- 项目概述 -->
+			<div class="form-group form-group-small">
+				<label for="prjct_abstract" class="col-sm-2 control-label">简要描述</label>
+				<div class="col-md-6">
+					<textarea class="form-control" id="prjct_participtors" rows="3"
+						placeholder="100字即可" required="required"></textarea>
+				</div>
+			</div>
+
+			<!-- 添加项目参与者 -->
+			<div class="form-group form-group-small">
+				<label for="prjct_participators" class="col-sm-2 control-label">项目参与者</label>
+
+				<div class="col-md-4" id="participators_input_group">
+
+					<input type="hidden" class="form-control" id="prjct_participators"
+						placeholder="项目参与者" required="required" readonly="readonly" />
+
+					<div class="input-group input-group-small div_prjct_participators">
+						<div class="input-group-addon">
+							<span class="glyphicon glyphicon-user"></span>
+						</div>
+						<input class="form-control" type="text" placeholder="项目成员"
+							name="participators[]" required="required" />
+						<div class="input-group-addon">
+							<span class="glyphicon glyphicon-trash"
+								onclick="deleteChoosenPrjectParticipators($(this));"></span>
+						</div>
+					</div>
+
+					<button type="button" id="addParticipatorBtn"
+						class="btn btn-md btn-block btn-success"
+						onclick="addPrjectParticipators();">添加项目成员</button>
+				</div>
+
+			</div>
+
+
+			<!-- 附件上传 -->
+			<div class="form-group form-group-small">
+				<label for="attachement_file" class="col-sm-2 control-label">附件上传</label>
+				<div class="col-md-6">
+					<input type="file" class="form-control" id="attachement_file"
+						name="attachement_file" />
+					<p class="help-block">上传后缀为.rar或者zip文件.</p>
+				</div>
+			</div>
+
+			<div class="form-group form-group-small">
+				<div class="col-sm-offset-2 col-md-6">
+					<button type="submit" class="btn btn-md btn-block btn-primary">提交</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		
+	</script>
+</div>
