@@ -19,7 +19,7 @@ public class UserDBService {
 	}
 	
 	public int addNewUser(BaseUser user){
-		return userDBMapper.addNewUser(user);
+		return userDBMapper.addNewUser(user,user.getPermission().getCode());
 	}
 	
 	

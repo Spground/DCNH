@@ -27,7 +27,7 @@ public class GenericEnumCodeHandler extends BaseTypeHandler<GenericEnum>{
 	
 	@Override  
     public void setNonNullParameter(PreparedStatement ps, int i,  
-            GenericEnum parameter, JdbcType jdbcType) throws SQLException {  
+            GenericEnum parameter, JdbcType jdbcType) throws SQLException { 
         ps.setInt(i, parameter.getCode());  
     }  
   

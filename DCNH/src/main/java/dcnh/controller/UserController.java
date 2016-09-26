@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dcnh.globalInfo.SessionKey;
+import dcnh.handler.AccountManageHandler;
 import dcnh.handler.LoginHandler;
 import dcnh.mode.BaseUser;
 import dcnh.mode.ResponseMessage;
 import dcnh.mode.UserInfo;
+import dcnh.myutil.SHA256;
 /*
  * 账户操作相关
  */
@@ -21,6 +23,9 @@ public class UserController {
 	
 	@Autowired
 	private LoginHandler loginHandler;
+	
+	@Autowired
+	private AccountManageHandler accountManageHandler;
 	
 	@RequestMapping("/login")
 	@ResponseBody
@@ -38,8 +43,9 @@ public class UserController {
 	
 	@RequestMapping("/addnewuser")
 	@ResponseBody
-	public ResponseMessage addNewAccount(@RequestParam BaseUser user){
-		ResponseMessage response  = new ResponseMessage();
+	public ResponseMessage addNewAccount(@RequestParam String userName,@RequestParam String password,
+			@RequestParam  String school,@RequestParam String  permission){
+		ResponseMessage response  = accountManageHandler.addNewuser(userName,password,school,permission);
 		return response;
 	}
 	

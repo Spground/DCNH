@@ -1,9 +1,9 @@
 package dcnh.globalInfo;
 
 public enum UserPermission implements GenericEnum{
-	SUPERADMIN(1,"superAdmin"),
-	SCHOOLADMIN(2,"schoolAdmin"),
-	JUDGE(3,"judge");
+	SUPERADMIN(1,"系统管理员"),
+	SCHOOLADMIN(2,"校级管理员"),
+	JUDGE(3,"专家账户");
 	
 	private int code;
 	
