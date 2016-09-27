@@ -53,28 +53,57 @@ function addNewAccount(){
 	var school = $("#school").val();
 	var password1 = $("#password1").val();
 	var password2 = $("#password2").val();
-	var premission=$("#permission").find("option:selected").text();
+	var permission=$("#accountpermission").find("option:selected").text();
 	
 	if(!check()){
 		return;
 	}
-	
-	if(premission==""){
+	if(permission=="校级管理员"){
 		var paper = $("#paper").val();
 		var project = $("#project").val();
 		var startup = $("#startup").val();
 		var creative = $("#creative").val();
-		$.ajax({
-			
-		});
+		if(paper=="") paper="0";
+		if(project=="") project="0";
+		if(startup=="") startup="0";
+		if(creative=="")creative="0";
+		console.log(paper+" "+project+" "+startup+" "+creative);
+		var param1 = {
+				userName:userName,
+				password:password1,
+				school :school,
+				permission:permission,
+				paper:paper,
+				project:project,
+				startup:startup,
+				creative:creative
+		}
 		
+		$.ajax({
+			url:'/addschooluser',
+			type:'post',
+			dataType: 'json',
+			data:param1,
+			success:function(data){
+				  if(data.code == 0)
+		    	  {
+		    		  alert("添加成功");
+			    	  clear();
+		    	  }
+		    	  else
+		    	  {
+		    		  alert(data.message);
+		    	 }
+			}
+		});
+		return;
 	}
 	
 	var param= {
 				password:password1,
 				userName:userName,
 				school :school,
-			permission:premission
+			permission:permission
 	}
 	$.ajax({
 		  url: '/addnewuser',
@@ -212,10 +241,4 @@ function showUserInfo(){
 	});
 }
 
-/*
- * 
-*/
-function showProjectManage(){
-	
-}
 

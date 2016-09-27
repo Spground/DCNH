@@ -15,24 +15,27 @@ import dcnh.mode.SubCategory;
 
 @Component
 public class CategoryCache implements InitializingBean{
+	
 	@Autowired
 	private CategoryDBMapper categoryDBMapper;
 	
-	private HashMap<String,MainCategory> cacheMap = new HashMap<String,MainCategory>();
+	private HashMap<String,MainCategory> cacheMapName = new HashMap<String,MainCategory>();
+	
+	private HashMap<Integer,MainCategory> cacheMapId = new HashMap<Integer,MainCategory>();
 	
 	private List<String> mainCategoryNamesList = new LinkedList<String>(); 
+	
 	public synchronized void refersh(){
-		cacheMap.clear();
+		cacheMapName.clear();
 		List<BaseCategory> allMainCategory = categoryDBMapper.getAllMainCategory();
 		for(BaseCategory baseCategory:allMainCategory){
 			MainCategory mainCategory = new MainCategory();
 			mainCategory.setId(baseCategory.getId());
 			mainCategory.setName(baseCategory.getName());
-			
 			List<SubCategory> subCategorys = categoryDBMapper.getAllSubCategory(mainCategory.getId());
 			mainCategory.setAllsubCategorys(subCategorys);
-			cacheMap.put(mainCategory.getName(), mainCategory);
-			
+			cacheMapName.put(mainCategory.getName(), mainCategory);
+			cacheMapId.put(mainCategory.getId(),mainCategory);
 			mainCategoryNamesList.add(mainCategory.getName());
 		}
 	}
@@ -42,10 +45,10 @@ public class CategoryCache implements InitializingBean{
 	}
 	
 	public boolean check(String mainCategoryName,String subCategoryName){
-		if(!cacheMap.containsKey(mainCategoryName)){
+		if(!cacheMapName.containsKey(mainCategoryName)){
 			return false;
 		}
-		MainCategory mainCategory = cacheMap.get(mainCategoryName);
+		MainCategory mainCategory = cacheMapName.get(mainCategoryName);
 		List<SubCategory> subCategorys =  mainCategory.getAllsubCategorys();
 		if(subCategorys==null || subCategorys.isEmpty()){
 			return false;
@@ -57,6 +60,17 @@ public class CategoryCache implements InitializingBean{
 			}
 		}
 		return false;
+	}
+	
+	public int getIdByName(String name){
+		
+		if(cacheMapName.containsKey(name)){
+			return cacheMapName.get(name).getId();
+		}
+		else{
+			System.out.println("null "+name);
+			return -1;
+		}
 	}
 	
 	@Override
