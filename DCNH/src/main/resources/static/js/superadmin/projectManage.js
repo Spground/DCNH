@@ -1,4 +1,21 @@
 function setProjectManageInfo(){
+	var projectGroupCount = $("#projectGroupCount").val();
+	var judgeGroupCount = $("#judgeGroupCount").val();
+	alert(projectGroupCount+" ### "+judgeGroupCount);
+	var param = {
+			projectGroupCount:projectGroupCount,
+			judgeGroupCount:judgeGroupCount
+	};
+	
+	$.ajax({
+		  url: '/setprojectmanageinfo',
+	      type: 'post',
+	      dataType: 'json',
+	      data:param,
+	      success: function(data){
+	    	  alert(data.message);
+	      	}
+	      });
 	
 }
 
