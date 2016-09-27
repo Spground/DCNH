@@ -16,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GenericEnumNameHandler  extends BaseTypeHandler<GenericEnum>{
 	private final GenericEnum[] enums;
-
-	
 	public GenericEnumNameHandler(Class<GenericEnum> type) {  
         if (type == null)  {
         	log.warn("type is null");

@@ -14,6 +14,6 @@ public class InnovationProject {
 	private String subCategory;//所属子类
 	private String teacher;//指导教师
 	private String attachmentId;//附件
-	private String score;//评分
+	private int score;//评分
 	
 }

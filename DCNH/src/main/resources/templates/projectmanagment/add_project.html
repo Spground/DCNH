@@ -44,10 +44,10 @@
 
 			<!-- 项目概述 -->
 			<div class="form-group form-group-small">
-				<label for="prjct_abstract" class="col-sm-2 control-label">简要描述</label>
+				<label for="prjct_title" class="col-sm-2 control-label">项目题目</label>
 				<div class="col-md-6">
-					<textarea class="form-control" id="prjct_participtors" rows="3"
-						placeholder="100字即可" required="required"></textarea>
+					<input class="form-control" id="prjct_title" name="prjct_title"
+						placeholder="项目标题" required="required" />
 				</div>
 			</div>
 
@@ -65,7 +65,7 @@
 							<span class="glyphicon glyphicon-user"></span>
 						</div>
 						<input class="form-control" type="text" placeholder="项目成员"
-							name="participators[]" required="required" />
+							name="participators" required="required" />
 						<div class="input-group-addon">
 							<span class="glyphicon glyphicon-trash"
 								onclick="deleteChoosenPrjectParticipators($(this));"></span>
@@ -85,7 +85,7 @@
 				<label for="attachement_file" class="col-sm-2 control-label">附件上传</label>
 				<div class="col-md-6">
 					<input type="file" class="form-control" id="attachement_file"
-						name="attachement_file" />
+						name="attachement_file"  onchange="fileChange(this);"/>
 					<p class="help-block">上传后缀为.rar或者zip文件.</p>
 				</div>
 			</div>
@@ -98,6 +98,57 @@
 		</form>
 	</div>
 	<script type="text/javascript">
-		
+		var isIE = false; 
+		function fileChange(target, id) {
+			var fileSize = 50;
+			var filetypes = [".rar", ".zip"];
+			var filepath = target.value;
+			var filemaxsize = 1024 * 50;//50M  
+			
+			if (filepath) {
+				var isnext = false;
+				var fileend = filepath.substring(filepath.indexOf("."));
+				if (filetypes && filetypes.length > 0) {
+					for (var i = 0; i < filetypes.length; i++) {
+						if (filetypes[i] == fileend) {
+							isnext = true;
+							break;
+						}
+					}
+				}
+				if (!isnext) {
+					alert("不接受此文件类型！");
+					target.value = "";
+					return false;
+				}
+			} else {
+				return false;
+			}
+			
+			if (isIE && !target.files) {
+				var filePath = target.value;
+				var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+				if (!fileSystem.FileExists(filePath)) {
+					alert("附件不存在，请重新输入！");
+					return false;
+				}
+				var file = fileSystem.GetFile(filePath);
+				fileSize = file.Size;
+			} else {
+				fileSize = target.files[0].size;
+			}
+
+			var size = fileSize / 1024;
+			if (size > filemaxsize) {
+				alert("附件大小不能大于" + filemaxsize / 1024 + "M！");
+				target.value = "";
+				return false;
+			}
+			if (size <= 0) {
+				alert("附件大小不能为0M！");
+				target.value = "";
+				return false;
+			}
+		}
 	</script>
 </div>
