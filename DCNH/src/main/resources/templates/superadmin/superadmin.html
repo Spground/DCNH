@@ -29,6 +29,7 @@
 		<script type='text/javascript' src="/js/jquery-3.1.0.min.js"></script>	
 		<script type='text/javascript' src="/js/vue.js"></script>
 		<script type='text/javascript' src="/js/superadmin/superadmin.js"></script>	
+		<script type='text/javascript' src="/js/superadmin/projectManage.js"></script>	
 		
     </head>   
 
@@ -89,7 +90,7 @@
 			</a> 
 			
 			
-			<a href="#" onclick="projectManage()" class="menu-button-middle">
+			<a href="#" onclick="showProjectManagepage()" class="menu-button-middle">
 				<span class="glyphicon glyphicon-th-large">&nbsp;项目分配</span>
 			</a>
 				
@@ -118,9 +119,9 @@
 	   <button  type="button" class="btn btn-success" onclick="setCreateaccountPage()">添加账户</button>
 	   <button type="button" class="btn btn-success" onclick="showUserInfo()">查看已有账户</button>
 	    <select id="permission" class="selectpicker">
-	   	  <option>系统管理员</option>
-		  <option>校级管理员</option>
+	     <option>校级管理员</option>
 		  <option>专家账户</option>
+		  <option>系统管理员</option>
 		</select>
 	   <div id="show">
 	   </div>

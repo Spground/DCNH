@@ -8,7 +8,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import dcnh.cache.CategoryCache;
 import dcnh.cache.SchoolCache;
+import dcnh.dbservice.ProjectDBService;
 import dcnh.dbservice.UserDBService;
 import dcnh.globalInfo.ResponseCode;
 import dcnh.globalInfo.SessionKey;
@@ -29,6 +31,12 @@ public class AccountManageHandler {
 	
 	@Autowired
 	private SchoolCache schoolCache;
+	
+	@Autowired
+	private CategoryCache categoryCache;
+	
+	@Autowired
+	private ProjectDBService projectDBService;
 	
 	public ResponseMessage addNewuser(String userName,String passowrd,String school,String permission){
 		ResponseMessage response = new ResponseMessage();
@@ -51,18 +59,42 @@ public class AccountManageHandler {
 			response.setMessage("添加成功");
 		}
 		else{
-			response.setCode(ResponseCode.SUCCESS.ordinal());
+			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("添加失败");
 		}
 		return response;
 	}
 	
-	/*public ResponseMessage addNewuser(String userName,String passowrd,String school,String permission,
+	/*
+	 * 等有时间必须重写,应该作为一个事务，呵呵
+	 */
+	public ResponseMessage addNewuser(String userName,String password,String school,String permission,
 			int paper,int project,int startup,int creative){
 		
+		ResponseMessage response = addNewuser(userName,password,school,permission);
+		if(response.getCode() == ResponseCode.SUCCESS.ordinal()){
+			if(paper>0){
+				int categoryId = categoryCache.getIdByName("学术论文");
+				projectDBService.saveUserProject(userName, categoryId, paper);
+			}
+			
+			if(project > 0){
+				int categoryId = categoryCache.getIdByName("展示项目");
+				projectDBService.saveUserProject(userName, categoryId, paper);
+			}
+			
+			if(startup>0){
+				int categoryId = categoryCache.getIdByName("创业直通车项目");
+				projectDBService.saveUserProject(userName, categoryId, paper);
+			}
+			if(creative>0){
+				int categoryId = categoryCache.getIdByName("创意作品");
+				projectDBService.saveUserProject(userName, categoryId, paper);
+			}
+		}
+		return response;
 		
-		
-	}*/
+	}
 	
 	public ResponseMessage deleteAccount(HttpSession session,String userName){
 		ResponseMessage responseMessage = new ResponseMessage();

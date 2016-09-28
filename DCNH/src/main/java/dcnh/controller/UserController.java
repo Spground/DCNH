@@ -64,15 +64,13 @@ public class UserController {
 		return accountManageHandler.getAllUserInfo(user,permission);
 	}
 	
-//	@RequestMapping("/addschoolUser")
-//	@ResponseBody
-//	public ResponseMessage addNewAccount(@RequestParam String userName,@RequestParam String password,
-//			@RequestParam  String school,@RequestParam String  permission,
-//			@RequestParam int paper,@RequestParam int project,@RequestParam int startup,
-//			@RequestParam int creative){
-//		
-//	}
-	
-	
-	
+	@RequestMapping("/addschooluser")
+	@ResponseBody
+	public ResponseMessage addNewAccount(@RequestParam String userName,@RequestParam String password,
+			@RequestParam  String school,@RequestParam String  permission,
+			@RequestParam int paper,@RequestParam int project,@RequestParam int startup,
+			@RequestParam int creative){
+		return accountManageHandler.addNewuser(userName, password, school, permission, paper, project, startup, creative);
+	}
+
 }
