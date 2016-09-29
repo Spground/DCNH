@@ -18,10 +18,11 @@
 		      <td>{{project.title}}</td>
 		      <td>{{project.school}}</td>
 		      <td>{{project.participators}}</td>
+		      <td>{{project.teacher}}</td>
 		      <td>{{project.mainCategory}}</td>
 		      <td>{{project.subCategory}}</td>
 		      <td>{{project.score}}</td>
-		      <td><a v-bind:href="/getattachmentid/{{project.attachmentId}}">附件</a></td>
+		      <td><a v-bind:href="project.attachmentId">附件</a></td>
 		    </tr>
 		  </tbody>
 		</table>

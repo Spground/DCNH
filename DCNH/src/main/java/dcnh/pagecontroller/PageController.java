@@ -37,9 +37,16 @@ public class PageController {
 	public String getUserInfoPage(){
 		return "/superadmin/showaccount";
 	}
+
+	@RequestMapping("/getshowprojectpage")
+	public String getProjectShowpage(){
+		return "/superadmin/showproject";
+	}
 	
+
 	@RequestMapping("/getaddprjctpage")
 	public String getAddPrjctPage() {
 		return "/projectmanagment/add_project";
 	}
+
 }
