@@ -139,12 +139,14 @@ public class AccountManageHandler {
 			return false;
 		}
 		
-		if(user.getSchool()==null
-				||user.getSchool().isEmpty()
-				||!schoolCache.containsSchool(user.getSchool())){
-			response.setCode(ResponseCode.FAILED.ordinal());
-			response.setMessage("学校名称设置错误");
-			return false;
+		if(userPermission.equals(UserPermission.SCHOOLADMIN)){
+			if(user.getSchool()==null
+					||user.getSchool().isEmpty()
+					||!schoolCache.containsSchool(user.getSchool())){
+				response.setCode(ResponseCode.FAILED.ordinal());
+				response.setMessage("学校名称设置错误");
+				return false;
+			}
 		}
 		return true;
 	}

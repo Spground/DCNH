@@ -16,7 +16,6 @@ import dcnh.handler.LoginHandler;
 import dcnh.mode.BaseUser;
 import dcnh.mode.ResponseMessage;
 import dcnh.mode.UserInfo;
-import dcnh.myutil.SHA256;
 /*
  * 账户操作相关
  */

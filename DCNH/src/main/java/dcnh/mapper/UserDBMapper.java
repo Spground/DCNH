@@ -14,7 +14,6 @@ import dcnh.globalInfo.UserPermission;
 import dcnh.mode.BaseUser;
 import dcnh.mode.UserInfo;
 import dcnh.myutil.GenericEnumCodeHandler;
-import dcnh.myutil.GenericEnumNameHandler;
 
 public interface UserDBMapper {
 	@Results({
@@ -52,4 +51,5 @@ public interface UserDBMapper {
 	})
 	@Select("SELECT user_name,school,phone_number,email FROM dcnh.user_table where permission=#{permission};")
 	public List<UserInfo> getAllUserInfo(@Param("permission") int permission);
+	
 }
