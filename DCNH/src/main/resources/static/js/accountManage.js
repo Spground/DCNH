@@ -13,59 +13,6 @@ function setAccountMangePage() {
 	});
 }
 
-var category;
-
-function setAddPrjctPage() {
-	alert("setAddPrjctPage();");
-	$.ajax({
-		url : '/getaddprjctpage',
-		type : 'get',
-		dataType : 'text',
-		success : function(data) {		
-			$("#add_prjct_container").html(data);
-			//初始化上传文件
-			$("#attachement_file").fileinput({
-				language : 'zh',
-				allowedFileExtensions : [ "zip", "rar"], 
-				uploadUrl : "/addnewproject",
-				uploadAsync : true,
-				showPreview : false,
-				removeClass : "btn btn-danger",
-				showUpload: true, //是否显示上传按钮
-				elErrorContainer : "#fileError",
-			});
-			$.ajax({
-				url : "/getcategory",
-				type : 'get',
-				dataType : 'json',
-				success : function(data0) {
-					category = data0;
-					//填充一级选择框
-					$("#category").empty();
-					$("#category").append("<option>----选择一级分类----</option>");
-					for(var item in category) {
-						$("#category").append("<option>" + item + "</option>");
-					}
-					
-					//填充二级选择框
-					$("#category").change(function() {
-						$("#subcategory").empty();
-						$("#subcategory").append("<option>----选择二级分类----</option>");
-						var key = $('#category >option:selected').val();
-						var subCategory = category[key];
-						if(subCategory == null)
-							return;
-						for(var item0 in subCategory) {
-							$("#subcategory").append("<option>" + subCategory[item0] + "</option>");
-						}
-					});
-					
-				}
-			});
-		}
-	});
-}
-
 function addNewAccount() {
 
 	var userName = $("#userName").val();
