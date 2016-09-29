@@ -56,10 +56,6 @@
 				<label for="prjct_participators" class="col-sm-2 control-label">项目参与者</label>
 
 				<div class="col-md-4" id="participators_input_group">
-
-					<input type="hidden" class="form-control" id="prjct_participators"
-						placeholder="项目参与者" required="required" readonly="readonly" />
-
 					<div class="input-group input-group-small div_prjct_participators">
 						<div class="input-group-addon">
 							<span class="glyphicon glyphicon-user"></span>
@@ -79,7 +75,8 @@
 
 			</div>
 
-
+			<input id="attachementId" type="hidden"/>
+			
 			<!-- 附件上传 -->
 			<div class="form-group form-group-small">
 				<label for="attachement_file" class="col-sm-2 control-label">附件上传</label>
@@ -90,7 +87,6 @@
 					<p class="helip-block" id="fileError"></p>
 				</div>
 			</div>
-
 		<!-- 	<div class="progress col-md-6 col-md-offset-2">
 				<div class="progress-bar" role="progressbar" aria-valuenow="60"
 					aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
@@ -100,7 +96,7 @@
 
 			<div class="form-group form-group-small">
 				<div class="col-sm-offset-2 col-md-6">
-					<button type="button" id="submitBtn" class="btn btn-md btn-block btn-primary" onclick="uploadFile0();">提交</button>
+					<button type="button" id="submitBtn" class="btn btn-md btn-block btn-primary" onclick="postNewProject();">提交</button>
 				</div>
 			</div>
 		</form>

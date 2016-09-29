@@ -31,6 +31,7 @@
 <script type="text/javascript" src="/js/fileUpload.js"></script>
 <script type="text/javascript" src="/js/fileinput/fileinput.js"></script>
 <script src="/js/fileinput/locales/zh.js"></script>
+<script src="/js/projectmanagement.js"></script>
 <script type="text/javascript">
 	
 </script>
@@ -169,8 +170,9 @@
 					showPreview : false,
 					removeClass : "btn btn-danger",
 					showUpload: true, //是否显示上传按钮
-					elErrorContainer : "#fileError",
 				});
+				//绑定上传文件的事件回调
+				initFileInputEvent();
 				$.ajax({
 					url : "/getcategory",
 					type : 'get',
@@ -203,8 +205,31 @@
 		});
 	}
 	
+	//绑定事件
+	function initFileInputEvent() {
+		$("#attachement_file").on("fileuploaded", function(event, data, previewId, index) {
+			var rep = data.response;
+			console.log(rep);
+			if(rep == null || rep.code == "1") {
+				modalAlert("附件上传失败，请重新尝试！" + rep.message);
+				return;
+			}
+			//设置附件ID隐藏表单域
+			$("#attachementId").val(rep.message);
+			modalAlert("附件上传成功！");
+		} );
+		$("#attachement_file").on("fileuploaderror", function(event, data, msg) {
+			$("#attachementId").val("");
+			modalAlert(msg);
+		} );
+	}
+	
 	function addPrjct() {
 		setAddPrjctPage();
+	}
+	
+	function removeAddProjectPage() {
+		$("#add_prjct_container").html("");
 	}
 	
 	function addPrjectParticipators() {
@@ -225,9 +250,12 @@
 		$("#alertModal").modal("show");
 	}
 
+	//上传文件
 	function uploadFile0() {
 		console.log($("#mform").serializeArray());
 		$("#attachement_file").fileinput("upload");
 	}
+	
+	
 </script>
 </html>
