@@ -61,4 +61,7 @@ public class AttachementHandler {
 	    			log.warn("getOutputStream flush warn",e );
 	    		}
 	   }
+	    
+	 //   private String getFileType(String fileName)
+	    
 }
