@@ -24,7 +24,7 @@ public class PageController {
 	
 	@RequestMapping("/getjudgepage")
 	public String getJudgepage(){
-		return "judge";
+		return "/judge/judge";
 	}
 	
 	@RequestMapping("/getuserinfopage")
@@ -44,7 +44,7 @@ public class PageController {
 	}
 	
 
-	@RequestMapping("/getaddprjctpage")
+	@RequestMapping("/getaddprojectpage")
 	public String getAddPrjctPage() {
 		return "/projectmanagment/add_project";
 	}
