@@ -21,8 +21,19 @@ function setAddPrjctPage() {
 		url : '/getaddprjctpage',
 		type : 'get',
 		dataType : 'text',
-		success : function(data) {
+		success : function(data) {		
 			$("#add_prjct_container").html(data);
+			//初始化上传文件
+			$("#attachement_file").fileinput({
+				language : 'zh',
+				allowedFileExtensions : [ "zip", "rar"], 
+				uploadUrl : "/addnewproject",
+				uploadAsync : true,
+				showPreview : false,
+				removeClass : "btn btn-danger",
+				showUpload: true, //是否显示上传按钮
+				elErrorContainer : "#fileError",
+			});
 			$.ajax({
 				url : "/getcategory",
 				type : 'get',
