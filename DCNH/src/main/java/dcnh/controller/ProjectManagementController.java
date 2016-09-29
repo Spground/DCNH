@@ -41,14 +41,17 @@ public class ProjectManagementController {
 
 	@RequestMapping(value = "/addnewproject", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseMessage addNewProject(HttpSession session, @RequestParam String category,
-			@RequestParam String subcategory, @RequestParam String school, @RequestParam String teacher,
-			@RequestParam String prjct_title, @RequestParam String[] participators,
-			@RequestParam MultipartFile attachement_file) {
+	public ResponseMessage addNewProject(HttpSession session, @RequestParam("category") String category,
+			@RequestParam("subcategory") String subcategory, @RequestParam("school") String school,
+			@RequestParam("teacher") String teacher,@RequestParam("prjct_title") String prjct_title, 
+			@RequestParam("participators[]") List<String> participators,@RequestParam("attachement_id")String attachementId ) {
 
-		System.err.println("category " + category + " participators size is : " + participators.length + "subcategory "
+		System.err.println("category " + category + " participators size is : " + participators.size() + "subcategory "
 				+ subcategory + "");
-				// 先新建一个项目
+		System.err.println("category " + category + " \nparticipators is : " + participators + "\nsubcategory "
+				+ subcategory + "\nschool is " + school + "\n" + "teacher" + teacher + "\nprjct_title" + prjct_title
+				+ "\nattachementId " + attachementId) ;
+		// 先新建一个项目
 
 		// 保存文件
 
