@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -104,4 +107,9 @@ public class ProjectManageHandler {
 		
 	}*/
 	
+	public void sendAttachement(String attachementId,HttpServletRequest request,HttpServletResponse response){
+		
+	}
+	
+	//public ResponseMessage saveAttachement()
 }

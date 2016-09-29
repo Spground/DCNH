@@ -1,5 +1,11 @@
 var projectList = [{
-	
+	title:"title",
+    school:"school",
+    participators:"participators",
+    mainCategory:"mainCategory",
+    subCategory:"subCategory",
+    score:"1",
+    attachmentId:"123"
 }];
 
 var showProject;
@@ -55,15 +61,39 @@ function showProjectManagepage(){
 }
 
 /*
+ * 获取项目展示页
+ */
+function showProjectpage(){
+	$.ajax({
+		url:'getshowprojectpage',
+		type:'get',
+		dataType:'text',
+		success:function(data){
+			$("#contains").html(data);
+			showProject =   new Vue({
+    			el:'#projectTable',
+    			data:{
+    				projectList:projectList
+    			}
+    		});
+			showAllProject();
+		}
+	});
+}
+
+/*
  * 显示所有项目 
  */
 function showAllProject(){
 	$.ajax({
 		url:'/getallproject',
 		type:'get',
-		dataType:'text',
+		dataType:'json',
 		success:function(data){
-			
+			for(var index in data){
+				data[index].attachementId = 
+			}
+			showProject.projectList = data;
 		}
 	});
 }

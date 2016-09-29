@@ -38,5 +38,9 @@ public class PageController {
 		return "/superadmin/showaccount";
 	}
 	
+	@RequestMapping("/getshowprojectpage")
+	public String getProjectShowpage(){
+		return "/superadmin/showproject";
+	}
 	
 }
