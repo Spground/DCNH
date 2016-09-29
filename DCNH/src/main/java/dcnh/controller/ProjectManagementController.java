@@ -114,7 +114,7 @@ public class ProjectManagementController {
 	@RequestMapping("/uploadattachement")
 	@ResponseBody
 	public ResponseMessage getAttachement(@RequestParam("attachement_file") MultipartFile file) {
-		System.out.println("##### fileName ### " + file.getName());
+		System.out.println("##### fileName ### " + file.getName() + " original filename is " + 	file.getOriginalFilename() + file.getSize());
 		ResponseMessage response = new ResponseMessage();
 		response.setCode(ResponseCode.SUCCESS.ordinal());
 		response.setMessage("呵呵呵呵");
