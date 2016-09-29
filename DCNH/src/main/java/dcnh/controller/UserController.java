@@ -71,7 +71,5 @@ public class UserController {
 			@RequestParam int creative){
 		return accountManageHandler.addNewuser(userName, password, school, permission, paper, project, startup, creative);
 	}
-	
-	
-	
+
 }

@@ -91,7 +91,7 @@ function showAllProject(){
 		dataType:'json',
 		success:function(data){
 			for(var index in data){
-				data[index].attachementId = 
+				data[index].attachementId = data[index].attachementId
 			}
 			showProject.projectList = data;
 		}
