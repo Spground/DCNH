@@ -1,3 +1,10 @@
+/*
+ * 获取管理员所分配的项目
+ */
+var school_all = 0;//所有项目
+var school_graded = 1;//已评价
+var school_notgrade = 2;//未评价
+
 var school_projectList = [{
 	title:"title",
     school:"school",
@@ -44,9 +51,13 @@ function school_showProject(){
 		url:'/getprojectlist',
 		type:'get',
 		dataType:'json',
+		data:{
+			kind: school_all
+		},
 		success:function(data){
 			for(var index in data){
-				data[index].attachementId = data[index].attachementId
+				if(data[index]!=null &&data[index].attachmentId !=null)
+					data[index].attachmentId = "/getattachement/"+data[index].attachmentId;
 			}
 			school_showProjectVue.projectList = data;
 		}

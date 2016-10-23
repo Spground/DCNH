@@ -1,9 +1,9 @@
 /*
  * 获取管理员所分配的项目
  */
-var graded = 0;//所有项目
-var notgrade = 1;//已评价
-var all = 2;//未评价
+var all = 0;//所有项目
+var graded = 1;//已评价
+var notgrade = 2;//未评价
 
 var judgeshowProject = null;
 
