@@ -30,8 +30,8 @@
 		<script type='text/javascript' src="/js/vue.js"></script>
 		<script type='text/javascript' src="/js/superadmin/superadmin.js"></script>	
 		<script type='text/javascript' src="/js/superadmin/projectManage.js"></script>
-		<script type='text/javascript' src="/js/superadmin/projectManage.js"></script>		
-		
+		<script src="/js/superadmin/result.js"></script>		
+		<script src="/js/jquery.cookie.js"></script>
     </head>   
 
     <body onload="onload()">
@@ -97,13 +97,11 @@
 				
 				
 			
-				<a href="#" onclick="" class="menu-button-middle"><span
-					class="glyphicon glyphicon-th">&nbsp;评价查询</span></a>
-				<a href="/admin/user_authority/" class="menu-button-middle"><span
-					class="glyphicon glyphicon-th">&nbsp;结果导出</span></a>
+				<!-- <a href="#" onclick="" class="menu-button-middle"><span
+					class="glyphicon glyphicon-th">&nbsp;评价查询</span></a>-->
+				<a href="#" class="menu-button-middle" onclick="getResultSettingPage()"><span
+					class="glyphicon glyphicon-th">&nbsp;结果导出</span></a> 
 				
-			
-	
 		   <a href="#"
 				class="menu-button-middle"><span
 				class="glyphicon glyphicon glyphicon-user">&nbsp;个人信息</span></a>

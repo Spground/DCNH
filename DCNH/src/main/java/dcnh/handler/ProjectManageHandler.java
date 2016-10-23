@@ -1,24 +1,34 @@
 package dcnh.handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import dcnh.cache.CategoryCache;
 import dcnh.dbservice.GroupingDBService;
 import dcnh.dbservice.ProjectDBService;
 import dcnh.dbservice.UserDBService;
 import dcnh.globalInfo.ProjectManagementInfo;
 import dcnh.globalInfo.ResponseCode;
+import dcnh.globalInfo.ResultSettingInfo;
 import dcnh.globalInfo.UserPermission;
+import dcnh.mode.BaseUser;
 import dcnh.mode.InnovationProject;
+import dcnh.mode.MainCategory;
 import dcnh.mode.ResponseMessage;
+import dcnh.mode.SubCategory;
 import dcnh.mode.UserInfo;
 
 @Component
@@ -31,14 +41,41 @@ public class ProjectManageHandler {
 	private UserDBService userDBService;
 	
 	@Autowired
-	private ProjectDBService projectService;
+	private ProjectDBService projectDBService;
 	
 	@Autowired
 	private GroupingDBService groupingDBService;
 	
+	@Autowired
+	private CategoryCache categoryCache;
+	
+	public Map<String, List<String>> getAllCategory(){
+		Map<String, List<String>> result = new HashMap<>();
+		List<String> mainCategoryNames = categoryCache.getAllMainCategoryNames();
+		for(String mainCategoryName:mainCategoryNames){
+			MainCategory mainCategory = categoryCache.getMainCategory(mainCategoryName);
+			List<SubCategory> subCategoryList = mainCategory.getAllsubCategorys();
+			List<String> subCategoryNameList = new LinkedList<String>();
+			for(SubCategory subCategory: subCategoryList){
+				subCategoryNameList.add(subCategory.getName());
+			}
+			result.put(mainCategoryName, subCategoryNameList);
+		}
+		return result;
+	}
+	
+	/*
+	 * 查看某一学校的所有项目
+	 */
+	public List<InnovationProject> getAllProject(String school){
+		return projectDBService.getProjectList(school);
+	}
+	
 	public ResponseMessage groupingProject(){
 			ResponseMessage response = new ResponseMessage();
 			
+			//首先清除原有的分组数据
+			groupingDBService.clear();
 			//int projectGroupCount = projectManagementInfo.getProjectGroupCount();
 			
 			//专家分组
@@ -69,7 +106,7 @@ public class ProjectManageHandler {
 			
 			//项目分组
 			ArrayList<List<InnovationProject>> projectGroup = new ArrayList<List<InnovationProject>>();
-			List<InnovationProject> allProjectList = projectService.getAllInnovationProject();
+			List<InnovationProject> allProjectList = projectDBService.getAllInnovationProject();
 			int projectCount = allProjectList.size();
 			int projectNumofGroup = projectCount/groupNum;//大创项目每组多少个
 			Iterator<InnovationProject> projectIterator = allProjectList.iterator();
@@ -100,16 +137,122 @@ public class ProjectManageHandler {
 	}
 	
 	public List<InnovationProject> getAllProject(){
-		return projectService.getAllInnovationProject();
+		return projectDBService.getAllInnovationProject();
 	}
 	
-	/*public List<InnovationProject>  getAllCategoryProject(String category){
-		
-	}*/
+	public List<InnovationProject> getAllProjectOfJudge(String userName,int kind){
+		return projectDBService.getProjectListOfJudge(userName, kind);
+	}
 	
 	public void sendAttachement(String attachementId,HttpServletRequest request,HttpServletResponse response){
 		
 	}
 	
-	//public ResponseMessage saveAttachement()
+	public ResponseMessage addNewProject(BaseUser user,String mainCategoryName,String subCategoryName,
+			String teacher,String projectTitle,List<String> participators,String attachementId){
+		
+		ResponseMessage response = new ResponseMessage();
+		InnovationProject project = new InnovationProject();
+		System.out.println("##################  ResponseMessage addNewProject");
+		if(!checkInfo(user,mainCategoryName,subCategoryName,teacher,response)){
+			return response;
+		}
+		StringBuilder sb = new StringBuilder();
+		for(String str:participators){
+			sb.append(str);
+		}
+		project.setAttachmentId(attachementId);
+		project.setMainCategory(mainCategoryName);
+		project.setSchool(user.getSchool());
+		project.setSubCategory(subCategoryName);
+		project.setTitle(projectTitle);
+		project.setTeacher(teacher);
+		project.setParticipators(sb.toString());
+		
+		projectDBService.createNewProject(project);
+		
+		int categoryId = categoryCache.getIdByName(mainCategoryName);
+		
+		int newUploadcount = projectDBService.getUploadProjectCount(user.getUserName(),categoryId) + 1;
+		
+		projectDBService.updateUploadCount(user.getUserName(), categoryId, newUploadcount);
+		
+		projectDBService.createNewProject(project);
+		
+		response.setCode(ResponseCode.SUCCESS.ordinal());
+		response.setMessage("新建项目成功");
+		return response;
+	}
+	
+	private boolean checkInfo(BaseUser user,String mainCategoryName,String subCategoryName,
+			String attachementId,ResponseMessage response){
+		
+		System.out.println("##################  checkInfo(BaseUser user,");
+		
+		if(!categoryCache.check(mainCategoryName, subCategoryName)){
+			response.setCode(ResponseCode.FAILED.ordinal());
+			response.setMessage("类别信息设置错误");
+			return false;
+		}
+		System.out.println("##################  checkInfo(BaseUser user,*****");
+		int categoryId = categoryCache.getIdByName(mainCategoryName);
+		int projectCount = projectDBService.getProjectCount(user.getUserName(), categoryId);
+		if(projectCount<=0){
+			response.setCode(ResponseCode.FAILED.ordinal());
+			response.setMessage("未被分配该类型项目的名额");
+			return false;
+		}
+		int projectUploadCount = projectDBService.getUploadProjectCount(user.getUserName(), categoryId);
+		if(projectCount<=0){
+			response.setCode(ResponseCode.FAILED.ordinal());
+			response.setMessage("未被分配该类型项目的名额");
+			return false;
+		}
+		if(projectCount <= projectUploadCount){
+			response.setCode(ResponseCode.FAILED.ordinal());
+			response.setMessage("上传失败 已达到最大数量限制");
+			return false;
+		}
+		return true;
+		
+	}
+	
+	public ResponseMessage setResultInfo(Map<String,Integer> setInfoMap){
+		ResponseMessage response = new ResponseMessage();
+		 Set<String> keySet = setInfoMap.keySet();
+		 for(String category:keySet){
+			String value =  ""+setInfoMap.get(category);
+			int proportion = Integer.valueOf(value);
+			//System.out.println(count);
+			if(proportion<0 || proportion>100){
+				 response.setCode(ResponseCode.FAILED.ordinal());
+				 response.setMessage("设定比例有误，设置的百分比只能是0至100");
+				 return response;
+			}
+		 }
+		 
+		 for(String category:keySet){
+				String value =  ""+setInfoMap.get(category);
+				int proportion = Integer.valueOf(value);
+				categoryCache.updateMainCategory(category, proportion);
+		 }
+		response.setCode(ResponseCode.SUCCESS.ordinal());
+		response.setMessage("设置成功");
+		return response;
+	}
+	
+	public Map<String,List<InnovationProject>> getResultProjectList(BaseUser user){
+		
+		List<String> mainCategoryList = categoryCache.getAllMainCategoryNames();
+		HashMap<String,List<InnovationProject>> resultMap = new HashMap<String,List<InnovationProject>>();
+		for(String category:mainCategoryList){
+			int sum = projectDBService.getProjectCountCategory(category);
+			MainCategory mainCategory = categoryCache.getMainCategory(category);
+			int projectCount = sum*mainCategory.getProportion()/100;
+			List<InnovationProject> projectList = projectDBService.getProjectList(category, projectCount);
+			resultMap.put(category, projectList);
+		}
+		return resultMap;
+	}
+	
 }

@@ -17,14 +17,9 @@ public class PageController {
 	
 	
 	
-	@RequestMapping("/getschooladminpage")
+	@RequestMapping("/schooladmin")
 	public String getSchoolAdminPage(){
-		return "schooladmin";
-	}
-	
-	@RequestMapping("/getjudgepage")
-	public String getJudgepage(){
-		return "/judge/judge";
+		return "/schooladmin/schooladmin";
 	}
 	
 	@RequestMapping("/getuserinfopage")
@@ -40,13 +35,17 @@ public class PageController {
 
 	@RequestMapping("/getshowprojectpage")
 	public String getProjectShowpage(){
-		return "/superadmin/showproject";
+		return "/showallproject";
 	}
 	
 
-	@RequestMapping("/getaddprojectpage")
+	@RequestMapping("/getaddprjctpage")
 	public String getAddPrjctPage() {
 		return "/projectmanagment/add_project";
 	}
-
+	
+	@RequestMapping("/getaddprojectbutton")
+	public String getAddProjectPage() {
+		return "/schooladmin/addproject";
+	}
 }

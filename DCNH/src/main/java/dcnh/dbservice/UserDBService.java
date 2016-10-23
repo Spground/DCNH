@@ -15,6 +15,7 @@ import dcnh.mode.UserInfo;
 @Data
 @Service
 public class UserDBService {
+	
 	@Autowired
 	private UserDBMapper userDBMapper;
 	
@@ -23,7 +24,11 @@ public class UserDBService {
 	}
 	
 	public int addNewUser(BaseUser user){
+		try{
 		return userDBMapper.addNewUser(user,user.getPermission().getCode());
+		}catch(Exception e){
+			return -1;
+		}
 	}
 	
 	public int deleteUser(String userName){

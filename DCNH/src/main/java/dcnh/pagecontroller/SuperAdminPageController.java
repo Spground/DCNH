@@ -29,4 +29,14 @@ public class SuperAdminPageController {
 		return "/superadmin/projectManage";
 	}
 	
+	@RequestMapping("/resultsetting")
+	public String getResultsetting(){
+		return "/superadmin/resultsetting";
+	}
+	
+	@RequestMapping("/resultpage")
+	public String getResult(){
+		return "/superadmin/result";
+	}
+	
 }

@@ -65,7 +65,7 @@ function showProjectManagepage(){
  */
 function showProjectpage(){
 	$.ajax({
-		url:'getshowprojectpage',
+		url:'/getshowprojectpage',
 		type:'get',
 		dataType:'text',
 		success:function(data){
