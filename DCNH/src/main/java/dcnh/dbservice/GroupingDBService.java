@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dcnh.mapper.JudgeGroupDBMapper;
+import dcnh.mapper.JudgementDBMapper;
 import dcnh.mapper.ProjectDBMapper;
 import dcnh.mapper.ProjectGroupDBMapper;
 import dcnh.mapper.ProjectJudgeDBMapper;
@@ -29,6 +30,9 @@ public class GroupingDBService {
 	
 	@Autowired
 	private ProjectJudgeDBMapper projectJudgeDBMapper;
+	
+	@Autowired
+	private JudgementDBMapper judgementDBMapper;
 	
 	@Transactional
 	public void saveGroupInfo(List<UserInfo> userList,int judgeGroupId,List<InnovationProject> projectList,int projectGroupId){
@@ -51,6 +55,6 @@ public class GroupingDBService {
 		projectGroupDBMapper.truncate();
 		judgeGroupDBMapper.truncateJudgeGroupTable();
 		projectJudgeDBMapper.truncateProjectJudgeTable();
-		
+		judgementDBMapper.truncateJudgementTable();
 	}
 }

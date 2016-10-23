@@ -26,8 +26,9 @@
 		<link href="/css/bootstrap.min.css" rel="stylesheet"></link> 
 		<script type='text/javascript' src="/js/getcookie.js"></script>
 		<script type='text/javascript' src="/js/jquery-3.1.0.min.js"></script>	
+		<script type='text/javascript' src="/js/vue.js"></script>
 		<script type='text/javascript' src="/js/accountManage.js"></script>	
-		
+		<script type='text/javascript' src="/js/judge/judge.js"></script>	
     </head>   
 
     <body onload="onload()" >
@@ -56,7 +57,7 @@
 		          </form> -->
 		        </div>
 		      </div>
-    	</nav>
+    	</nav >
     <!-- </div>  -->
     
     
@@ -78,7 +79,7 @@
 		
 		
 			
-			<a href="/admin/pictureLink" class="menu-button-middle">
+			<a href="#" class="menu-button-middle" onclick="getproject()">
 				<span class="glyphicon glyphicon-th-large">&nbsp;查看项目</span>
 			</a> 
 			
@@ -96,11 +97,12 @@
 	  </div>
 	
 	  <div id="contains" class="col-sm-9 col-md-10 sidebar" >
-	   <button type="button" class="btn btn-success">查看项目</button>
-	   <select class="selectpicker">
+	 		<!-- <button type="button" class="btn btn-success" onclick="updateProjectList()">查看项目</button>
+	  <select id="selectkind" class="selectpicker">
+		   <option>所有项目</option>
 		  <option>已评分</option>
 		  <option>未评分</option>
-		  <option>按学校排序</option>
+		
 		</select>
 		
 		<table class="table table-bordered">
@@ -139,7 +141,7 @@
 		      <td>560001</td>
 		    </tr>
 		  </tbody>
-		</table>
+		</table>-->
 	  </div>
 	
 	</div>

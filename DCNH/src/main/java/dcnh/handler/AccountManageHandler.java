@@ -60,7 +60,7 @@ public class AccountManageHandler {
 		}
 		else{
 			response.setCode(ResponseCode.FAILED.ordinal());
-			response.setMessage("添加失败");
+			response.setMessage("添加失败,用户名已存在");
 		}
 		return response;
 	}
@@ -99,6 +99,11 @@ public class AccountManageHandler {
 	public ResponseMessage deleteAccount(HttpSession session,String userName){
 		ResponseMessage responseMessage = new ResponseMessage();
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+		if(!user.getPermission().equals(UserPermission.SUPERADMIN)){
+			responseMessage.setCode(ResponseCode.FAILED.ordinal());
+			responseMessage.setMessage("无权删除用户");
+			return responseMessage;
+		}
 		if(user!=null && user.getUserName().equals(userName)){
 			responseMessage.setCode(ResponseCode.FAILED.ordinal());
 			responseMessage.setMessage("不能删除当前登录用户");

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
 import dcnh.mode.InnovationProject;
@@ -41,9 +42,9 @@ public interface ProjectDBMapper {
 		@Result(property="score", column="score", javaType=String.class, jdbcType=JdbcType.INTEGER),
 		@Result(property="attachmentId", column="attachment_id", javaType=String.class, jdbcType=JdbcType.VARCHAR)
 	})
-	@Insert("INSERT INTO project_table VALUES(#{project.title}, #{project.mainCategory}, "
-			+ "#{project.subCategory}, #{project.participators}, #{project.school}, #{project.teacher},"
-			+ "#{project.score}, #{project.attachmentId});")
+	@Insert("INSERT INTO `dcnh`.`project_table` "
+			+ "(`school`, `teacher`, `score`, `category`, `subcategory`, `title`, `participators`, `attachment_id`) "
+			+ "VALUES (#{project.school},#{project.teacher},#{project.score},#{project.mainCategory},#{project.subCategory}, #{project.title},#{project.participators}, #{project.attachmentId});")
 	public int addNewProject(@Param("project")InnovationProject project);
 	
 	@Results({
@@ -76,7 +77,7 @@ public interface ProjectDBMapper {
 		
 	})
 	@Select("SELECT * FROM project_table where project_id=#{id};")
-	public InnovationProject getInnovationProject(int id);
+	public InnovationProject getInnovationProject(@Param("id") int id);
 	
 	@Results({
 		@Result(property="projectId",column="project_id",javaType=Integer.class,jdbcType=JdbcType.INTEGER),
@@ -87,10 +88,46 @@ public interface ProjectDBMapper {
 		@Result(property="subCategory",column="subcategory",javaType=String.class,jdbcType=JdbcType.VARCHAR),
 		@Result(property="title",column="title",javaType=String.class,jdbcType=JdbcType.VARCHAR),
 		@Result(property="participators",column="participators",javaType=String.class,jdbcType=JdbcType.VARCHAR),
-		@Result(property="attachmentId",column="attachment_id",javaType=String.class,jdbcType=JdbcType.VARCHAR),
-		
-		
+		@Result(property="attachmentId",column="attachment_id",javaType=String.class,jdbcType=JdbcType.VARCHAR)
 	})
-	@Select("SELECT * FROM project_table;")
+	@Select("SELECT * FROM project_table order by school")
 	public List<InnovationProject> getAllInnovationProject();
+	
+	@Results({
+		@Result(property="projectId",column="project_id",javaType=Integer.class,jdbcType=JdbcType.INTEGER),
+		@Result(property="school",column="school",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="teacher",column="teacher",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="score",column="score",javaType = Integer.class,jdbcType=JdbcType.INTEGER),
+		@Result(property="mainCategory",column="category",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="subCategory",column="subcategory",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="title",column="title",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="participators",column="participators",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="attachmentId",column="attachment_id",javaType=String.class,jdbcType=JdbcType.VARCHAR)
+	})
+	@Select("SELECT * FROM project_table where school=#{school};")
+	public List<InnovationProject> getAllInnovationProjectByschool(@Param("school") String school);
+	
+	
+	
+	@Update("update dcnh.project_table set score=#{newScore} where project_id = #{projectId};")
+	public boolean updateScore(@Param("projectId") int projectId,@Param("newScore") int newScore);
+	
+	@Results({
+		@Result(property="projectId",column="project_id",javaType=Integer.class,jdbcType=JdbcType.INTEGER),
+		@Result(property="school",column="school",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="teacher",column="teacher",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="score",column="score",javaType = Integer.class,jdbcType=JdbcType.INTEGER),
+		@Result(property="mainCategory",column="category",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="subCategory",column="subcategory",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="title",column="title",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="participators",column="participators",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="attachmentId",column="attachment_id",javaType=String.class,jdbcType=JdbcType.VARCHAR)
+	})
+	@Select("SELECT * FROM project_table where category=#{category} order by score limit #{projectCount}")
+	public List<InnovationProject> getProjectListByCategory(@Param("category") String category,@Param("projectCount") int projectCount);
+	
+	@Select("SELECT count(project_id) FROM dcnh.project_table where category= #{category};")
+	public int getProjectCount(@Param("category") String category);
+	
+	
 }

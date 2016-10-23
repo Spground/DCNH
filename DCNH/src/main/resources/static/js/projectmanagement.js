@@ -1,5 +1,4 @@
 function postNewProject() {
-	alert("post new project");
 	// 验证是否为空
 	var data = $("#mform").serializeArray();
 	console.log($("#mform").serializeArray());
@@ -48,13 +47,13 @@ function postNewProject() {
 		success:function(data) {
 			//清空，附件ID
 			$("#attachementId").val("");
-			if(data.code == 0 || true) {
-				alert("项目上传成功！");
+			if(data.code == 0) {
+				//alert(data.message);
 				//重置表单
 				resetForm();
 			}	
 			else
-				alert("项目上传失败，请重新尝试！");
+				alert(data.message);
 			
 		},
 		error:function() {

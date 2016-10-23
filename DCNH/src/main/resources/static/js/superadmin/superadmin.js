@@ -1,6 +1,4 @@
-/*
- * 显示大创项目
- */
+
 
 var list = [
 		{
@@ -12,6 +10,11 @@ var list = [
 ];
 
 var showUser;
+
+var showProject;
+
+
+
 function accountManage(){
 	 setAccountMangePage();
 }

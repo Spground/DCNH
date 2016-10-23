@@ -33,6 +33,9 @@ public class CategoryCache implements InitializingBean{
 			mainCategory.setId(baseCategory.getId());
 			mainCategory.setName(baseCategory.getName());
 			List<SubCategory> subCategorys = categoryDBMapper.getAllSubCategory(mainCategory.getId());
+			for(SubCategory subCategory:subCategorys){
+				System.out.println("###### "+subCategory.getName());
+			}
 			mainCategory.setAllsubCategorys(subCategorys);
 			cacheMapName.put(mainCategory.getName(), mainCategory);
 			cacheMapId.put(mainCategory.getId(),mainCategory);
@@ -73,11 +76,19 @@ public class CategoryCache implements InitializingBean{
 		}
 	}
 	
+	public MainCategory getMainCategory(String name){
+		return cacheMapName.get(name);
+	}
+	
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		refersh();
 	}
 	
-	
+	public void updateMainCategory(String categoryName,int proportion){
+		MainCategory category = getMainCategory(categoryName);
+		category.setProportion(proportion);
+		categoryDBMapper.updateCategoryproportion(categoryName, proportion);
+	}
 	
 }
