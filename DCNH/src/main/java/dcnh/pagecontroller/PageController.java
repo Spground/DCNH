@@ -10,42 +10,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PageController {
 	
-	@RequestMapping("/")
+	@RequestMapping("/dcnh")
 	public String getLoginPage(){
-		return "login";
+		return "/dcnh/login";
 	}
 	
 	
 	
-	@RequestMapping("/schooladmin")
+	@RequestMapping("/dcnh/schooladmin")
 	public String getSchoolAdminPage(){
-		return "/schooladmin/schooladmin";
+		return "/dcnh/schooladmin/schooladmin";
 	}
 	
-	@RequestMapping("/getuserinfopage")
+	@RequestMapping("/dcnh/getuserinfopage")
 	public String getUserInfopage(){
-		return "userinfo";
+		return "/dcnh/userinfo";
 	}
 	
 	
-	@RequestMapping("/getshowuserinfopage")
+	@RequestMapping("/dcnh/getshowuserinfopage")
 	public String getUserInfoPage(){
-		return "/superadmin/showaccount";
+		return "/dcnh/superadmin/showaccount";
 	}
 
-	@RequestMapping("/getshowprojectpage")
+	@RequestMapping("/dcnh/getshowprojectpage")
 	public String getProjectShowpage(){
-		return "/showallproject";
+		return "/dcnh/showallproject";
 	}
 	
 
-	@RequestMapping("/getaddprjctpage")
+	@RequestMapping("/dcnh/getaddprjctpage")
 	public String getAddPrjctPage() {
-		return "/projectmanagment/add_project";
+		return "/dcnh/projectmanagment/add_project";
 	}
 	
-	@RequestMapping("/getaddprojectbutton")
+	@RequestMapping("/dcnh/getaddprojectbutton")
 	public String getAddProjectPage() {
-		return "/schooladmin/addproject";
+		return "/dcnh/schooladmin/addproject";
 	}
 }

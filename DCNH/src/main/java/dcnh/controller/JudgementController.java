@@ -19,7 +19,7 @@ public class JudgementController {
 	@Autowired
 	private JudgementHandler judgementhandler;
 	
-	@RequestMapping("/addjudgement")
+	@RequestMapping("/dcnh/addjudgement")
 	@ResponseBody
 	public ResponseMessage addJudgement(HttpSession session,@RequestParam int score,@RequestParam int projectId){
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());

@@ -9,34 +9,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SuperAdminPageController {
 	
-	@RequestMapping("/superadmin")
+	@RequestMapping("/dcnh/superadmin")
 	public String getSuperAdminPage(){
-		return "/superadmin/superadmin";
+		return "/dcnh/superadmin/superadmin";
 	}
 	
-	@RequestMapping("/getaccountmanagepage")
+	@RequestMapping("/dcnh/getaccountmanagepage")
 	public String getAccountManagePage(){
-		return "/superadmin/accountManage";
+		return "/dcnh/superadmin/accountManage";
 	}
 	
-	@RequestMapping("/getcreateaccountpage")
+	@RequestMapping("/dcnh/getcreateaccountpage")
 	public String getcreateAccount(){
-		return "/superadmin/createaccount";
+		return "/dcnh/superadmin/createaccount";
 	}
 	
-	@RequestMapping("/getprojectmanagepage")
+	@RequestMapping("/dcnh/getprojectmanagepage")
 	public String getProjectManagePage(){
-		return "/superadmin/projectManage";
+		return "/dcnh/superadmin/projectManage";
 	}
 	
-	@RequestMapping("/resultsetting")
+	@RequestMapping("/dcnh/resultsetting")
 	public String getResultsetting(){
-		return "/superadmin/resultsetting";
+		return "/dcnh/superadmin/resultsetting";
 	}
 	
-	@RequestMapping("/resultpage")
+	@RequestMapping("/dcnh/resultpage")
 	public String getResult(){
-		return "/superadmin/result";
+		return "/dcnh/superadmin/result";
 	}
 	
 }

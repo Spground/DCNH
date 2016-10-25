@@ -6,23 +6,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class JudgepageController {
 
-	@RequestMapping("/judge")
+	@RequestMapping("/dcnh/judge")
 	public String getJudgepage(){
-		return "/judge/judge";
+		return "/dcnh/judge/judge";
 	}
 	
-	@RequestMapping("/gradeprojectpage")
+	@RequestMapping("/dcnh/gradeprojectpage")
 	public String getgradeprojectpage(){
-		return "/judge/gradedprojectpage";
+		return "/dcnh/judge/gradedprojectpage";
 	}
 	
-	@RequestMapping("/notgradedproject")
+	@RequestMapping("/dcnh/notgradedproject")
 	public String getnotgradeproject(){
-		return "/judge/notgradedproject";
+		return "/dcnh/judge/notgradedproject";
 	}
 	
-	@RequestMapping("/judgeshowproject")
+	@RequestMapping("/dcnh/judgeshowproject")
 	public String getjudgeshowproject(){
-		return "/judge/judgeshowproject";
+		return "/dcnh/judge/judgeshowproject";
 	}
 }

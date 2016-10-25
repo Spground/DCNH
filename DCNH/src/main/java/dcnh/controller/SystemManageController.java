@@ -26,7 +26,7 @@ public class SystemManageController {
 	  * 设置导出文件的导出比例
 	  * 即 导出前百分之多少的项目
 	  */
-	 @RequestMapping("/resultsettinginfo")
+	 @RequestMapping("/dcnh/resultsettinginfo")
 	 @ResponseBody
 	 public ResponseMessage setResultInfo(@RequestParam Map<String,Integer> setInfoMap){
 		// System.out.println("########********");

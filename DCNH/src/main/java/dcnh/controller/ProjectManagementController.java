@@ -56,7 +56,7 @@ public class ProjectManagementController {
 	@Autowired
 	private Environment env;
 	
-	@RequestMapping(value = "/addnewproject", method = RequestMethod.POST)
+	@RequestMapping(value = "/dcnh/addnewproject", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseMessage addNewProject(HttpSession session, @RequestParam("category") String mainCategoryName,
 			@RequestParam("subcategory") String subcategory, @RequestParam("school") String school,
@@ -74,7 +74,7 @@ public class ProjectManagementController {
 		return response;
 	}
 
-	@RequestMapping("/getcategory")
+	@RequestMapping("/dcnh/getcategory")
 	@ResponseBody
 	public Map<String, List<String>> getCategory() {
 		Map<String, List<String>> result = projectManageHandler.getAllCategory();
@@ -85,7 +85,7 @@ public class ProjectManagementController {
 	/*
 	 * 设置系统信息 比如每组有多少个大创项目 每个专家组有多少个专家
 	 */
-	@RequestMapping("/setprojectmanageinfo")
+	@RequestMapping("/dcnh/setprojectmanageinfo")
 	@ResponseBody
 	public ResponseMessage setProjectManagementInfo(@RequestParam int judgeGroupCount) {
 		ResponseMessage response = new ResponseMessage();
@@ -95,7 +95,7 @@ public class ProjectManagementController {
 		return response;
 	}
 
-	@RequestMapping("/grouping")
+	@RequestMapping("/dcnh/grouping")
 	@ResponseBody
 	public ResponseMessage groupingProject() {
 		ResponseMessage response = projectManageHandler.groupingProject();
@@ -111,13 +111,13 @@ public class ProjectManagementController {
 	 * }
 	 */
 
-	@RequestMapping("/getallproject")
+	@RequestMapping("/dcnh/getallproject")
 	@ResponseBody
 	public List<InnovationProject> getAllProject() {
 		return projectManageHandler.getAllProject();
 	}
 
-	@RequestMapping("/uploadattachement")
+	@RequestMapping("/dcnh/uploadattachement")
 	@ResponseBody
 	public ResponseMessage getAttachement(@RequestParam("attachement_file") MultipartFile file) throws IOException {
 		//System.out.println("##### fileName ### " + file.getName() + " original filename is " + 	file.getOriginalFilename() + file.getSize());
@@ -131,7 +131,7 @@ public class ProjectManagementController {
 	/*
 	 * 下载附件
 	 */
-	 @RequestMapping(value="/getattachement/{attachementId}")
+	 @RequestMapping(value="/dcnh/getattachement/{attachementId}")
 	 public void getAttachement(@PathVariable String attachementId,HttpServletRequest request,HttpServletResponse response){
 	/*	String path = env.getProperty("rootPath");
 	    log.info("path = " + path);
@@ -152,7 +152,7 @@ public class ProjectManagementController {
 	 /*
 	  * 获取该用户可以访问的大创项目
 	  */
-	 @RequestMapping("/getprojectlist")
+	 @RequestMapping("/dcnh/getprojectlist")
 	 @ResponseBody
 	 public List<InnovationProject> getProjectList(@RequestParam int kind,HttpSession session){
 		 BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
@@ -175,7 +175,7 @@ public class ProjectManagementController {
 	 /*
 	  * 获取导出项目列表
 	  */
-	 @RequestMapping("/resultprojectlist")
+	 @RequestMapping("/dcnh/resultprojectlist")
 	 @ResponseBody
 	 public Map<String,List<InnovationProject>> getResultProjectList(HttpSession session){
 		 BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
@@ -190,7 +190,7 @@ public class ProjectManagementController {
 	 /*
 	  * 获取导出项目列表
 	  */
-	 @RequestMapping("/sendhtmlcontent")
+	 @RequestMapping("/dcnh/sendhtmlcontent")
 	 @ResponseBody
 	 public ResponseMessage  createDoc(@RequestParam String htmlContent){
 		 ResponseMessage response = new ResponseMessage();
@@ -211,7 +211,7 @@ public class ProjectManagementController {
 	 /*
 	  * 下载导出项目文件
 	  */
-	 @RequestMapping(value="/getresultdocument/{filename}")
+	 @RequestMapping(value="/dcnh/getresultdocument/{filename}")
 	 public void getDocument(@PathVariable String filename,HttpServletRequest request,HttpServletResponse response){
 		 	String path = env.getProperty("rootPath");
 	    	log.info("path = " + path);

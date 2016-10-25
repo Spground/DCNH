@@ -28,13 +28,13 @@ public class UserController {
 	@Autowired
 	private AccountManageHandler accountManageHandler;
 	
-	@RequestMapping("/login")
+	@RequestMapping("/dcnh/login")
 	@ResponseBody
 	public ResponseMessage login(HttpSession session,@RequestParam String userName,@RequestParam String password){
 		return loginHandler.tryLogin(session,userName, password);
 	}
 	
-	@RequestMapping("/getuserinfo")
+	@RequestMapping("/dcnh/getuserinfo")
 	@ResponseBody
 	public UserInfo getUserInfo(HttpSession session){
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
@@ -42,7 +42,7 @@ public class UserController {
 		return userinfo;
 	}
 	
-	@RequestMapping("/addnewuser")
+	@RequestMapping("/dcnh/addnewuser")
 	@ResponseBody
 	public ResponseMessage addNewAccount(@RequestParam String userName,@RequestParam String password,
 			@RequestParam  String school,@RequestParam String  permission){
@@ -50,20 +50,20 @@ public class UserController {
 		return response;
 	}
 	
-	@RequestMapping("/deleteuser")
+	@RequestMapping("/dcnh/deleteuser")
 	@ResponseBody
 	public ResponseMessage deleteAccount(HttpSession session,@RequestParam String userName){
 		return accountManageHandler.deleteAccount(session, userName);
 	}
 	
-	@RequestMapping("/getalluserinfo")
+	@RequestMapping("/dcnh/getalluserinfo")
 	@ResponseBody
 	public List<UserInfo> getAllUserInfo(HttpSession session,@RequestParam String permission){
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
 		return accountManageHandler.getAllUserInfo(user,permission);
 	}
 	
-	@RequestMapping("/addschooluser")
+	@RequestMapping("/dcnh/addschooluser")
 	@ResponseBody
 	public ResponseMessage addNewAccount(@RequestParam String userName,@RequestParam String password,
 			@RequestParam  String school,@RequestParam String  permission,
