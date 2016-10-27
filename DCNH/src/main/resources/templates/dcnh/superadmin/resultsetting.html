@@ -1,0 +1,42 @@
+<div>
+<h>输入导出前百分之多少的项目，例如导出前10%，则输入10</h>
+<br></br>
+		<br></br>
+		<div class="input-group" style="width:250px">
+			<span class="input-group-addon">优秀论文</span>
+			<input id="lunwen" type="text" class="form-control" placeholder="输入数字默认是0" 
+			 onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" ></input>
+		</div>
+		<br></br>
+		<div class="input-group"  style="width:250px">
+			<span class="input-group-addon">最佳创意项目</span>
+			<input id="chuangxixiangmu" type="text" class="form-control" placeholder="输入数字默认是0"
+			 onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" ></input>
+		</div>
+		<br></br>
+		<div class="input-group" style="width:250px">
+			<span class="input-group-addon">优秀创业项目</span>
+			<input id="chuangyexiangmu" type="text" class="form-control" placeholder="输入数字默认是0" 
+			 onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" ></input>
+		</div>
+		<br></br>
+		<div class="input-group" style="width:250px">
+			<span class="input-group-addon">我最喜爱的展示项目</span>
+			<input id="zhanshixiangmu" type="text" class="form-control" placeholder="输入数字默认是0" 
+			 onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" ></input>
+		</div>
+		<br></br>
+		
+		<div class="input-group" style="width:250px">
+			<span class="input-group-addon">我最喜爱的创意作品</span>
+			<input id="chuangyixiangmu" type="text" class="form-control" placeholder="输入数字默认是0"></input>
+		</div>
+		<br></br>
+		<div>
+			<button type="button" class="btn btn-primary" onclick="setResultInfo()">设置导出项目比例</button>
+			<button type="button" class="btn btn-primary" onclick="getResultpage()">结果预览</button>
+			<a id="getdocument"><button type="button" class="btn btn-primary" onclick="getdocument()">导出文档</button></a>
+		</div>
+<div id="yulandoc">
+</div>
+</div>
