@@ -193,7 +193,6 @@ public class ProjectManagementController {
 	 @RequestMapping("/dcnh/sendhtmlcontent")
 	 @ResponseBody
 	 public ResponseMessage  createDoc(@RequestParam String htmlContent){
-		 System.out.println(htmlContent);
 		 ResponseMessage response = new ResponseMessage();
 		try {
 			String rootPath = env.getProperty("rootPath");
