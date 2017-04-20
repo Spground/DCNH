@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import dcnh.globalInfo.SessionKey;
+import dcnh.global.SessionKey;
 import dcnh.handler.JudgementHandler;
 import dcnh.mode.BaseUser;
 import dcnh.mode.ResponseMessage;
@@ -18,12 +18,12 @@ public class JudgementController {
 
 	@Autowired
 	private JudgementHandler judgementhandler;
-	
+
 	@RequestMapping("/dcnh/addjudgement")
 	@ResponseBody
-	public ResponseMessage addJudgement(HttpSession session,@RequestParam int score,@RequestParam int projectId){
+	public ResponseMessage addJudgement(HttpSession session, @RequestParam int score, @RequestParam int projectId) {
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
-		
+
 		return judgementhandler.addNewJudgement(user, score, projectId);
 	}
 }

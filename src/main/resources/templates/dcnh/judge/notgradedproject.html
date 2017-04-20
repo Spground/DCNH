@@ -1,31 +1,30 @@
 <table id="projectTable" class="table table-bordered">
-				  <caption>大创项目信息</caption>
-				  <thead>
-				    <tr>
-				      <th>项目名称</th>
-				      <th>学校</th>
-				      <th>参与者</th>
-				      <th>指导老师</th>
-				      <th>所属大类</th>
-				      <th>所属小类</th>
-				      <th>评分</th>
-				      <th>附件</th>
-				      <th>提交评分</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr  v-for="project in projectList">
-				      <td>{{project.title}}</td>
-				      <td>{{project.school}}</td>
-				      <td>{{project.participators}}</td>
-				      <td>{{project.teacher}}</td>
-				      <td>{{project.mainCategory}}</td>
-				      <td>{{project.subCategory}}</td>
-				      <td><a v-bind:href="project.attachmentId">附件</a></td>
-				      <td><input id="score_{{project.projectId}}" 
-				 onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" 
-				 type="text" class="form-control" placeholder="请打分，满分一百"></input></td>
-				      <td><button  id="{{project.projectId}}" type="button" class="btn btn-success" onclick="grade(this)">提交评分</button> </td>
-				    </tr>
-				  </tbody>
+	<caption>大创项目信息</caption>
+	<thead>
+		<tr>
+			<th>项目名称</th>
+			<th>学校</th>
+			<th>参与者</th>
+			<th>指导老师</th>
+			<th>所属大类</th>
+			<th>所属小类</th>
+			<th>评分</th>
+			<th>附件</th>
+			<th>提交评分</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr v-for="project in projectList">
+			<td>{{project.title}}</td>
+			<td>{{project.school}}</td>
+			<td>{{project.participators}}</td>
+			<td>{{project.teacher}}</td>
+			<td>{{project.mainCategory}}</td>
+			<td>{{project.subCategory}}</td>
+			<td><a v-bind:href="project.attachmentId">附件</a></td>
+			<td><input id="score_{{project.projectId}}" onkeyup="this.value=this.value.replace(/\D/g,'')"
+				onafterpaste="this.value=this.value.replace(/\D/g,'')" type="text" class="form-control" placeholder="请打分，满分一百"></input></td>
+			<td><button id="{{project.projectId}}" type="button" class="btn btn-success" onclick="grade(this)">提交评分</button></td>
+		</tr>
+	</tbody>
 </table>

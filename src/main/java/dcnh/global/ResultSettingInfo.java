@@ -1,4 +1,4 @@
-package dcnh.globalInfo;
+package dcnh.global;
 
 /*
  * 保存每一个大类的创新项目文件导出时，导出的比例

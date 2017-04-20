@@ -1,6 +1,6 @@
 package dcnh.mode;
 
-import dcnh.globalInfo.UserPermission;
+import dcnh.global.UserPermission;
 import lombok.Data;
 
 @Data

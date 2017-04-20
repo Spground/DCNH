@@ -6,24 +6,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import dcnh.cache.CategoryCache;
 import dcnh.dbservice.GroupingDBService;
 import dcnh.dbservice.ProjectDBService;
 import dcnh.dbservice.UserDBService;
-import dcnh.globalInfo.ProjectManagementInfo;
-import dcnh.globalInfo.ResponseCode;
-import dcnh.globalInfo.ResultSettingInfo;
-import dcnh.globalInfo.UserPermission;
+import dcnh.global.ProjectManagementInfo;
+import dcnh.global.ResponseCode;
+import dcnh.global.UserPermission;
 import dcnh.mode.BaseUser;
 import dcnh.mode.InnovationProject;
 import dcnh.mode.MainCategory;

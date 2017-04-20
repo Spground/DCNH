@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import dcnh.dbservice.JudgeDBServer;
-import dcnh.globalInfo.ResponseCode;
-import dcnh.globalInfo.UserPermission;
+import dcnh.global.ResponseCode;
+import dcnh.global.UserPermission;
 import dcnh.mode.BaseUser;
 import dcnh.mode.ResponseMessage;
 

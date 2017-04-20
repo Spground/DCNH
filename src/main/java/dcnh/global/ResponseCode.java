@@ -1,4 +1,4 @@
-package dcnh.globalInfo;
+package dcnh.global;
 
 public enum ResponseCode {
 	SUCCESS,

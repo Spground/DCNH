@@ -1,4 +1,4 @@
-package dcnh.globalInfo;
+package dcnh.global;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class JudgepageController {
 
 	@RequestMapping("/dcnh/judge")
-	public String getJudgepage(){
+	public String getJudgepage() {
 		return "/dcnh/judge/judge";
 	}
-	
+
 	@RequestMapping("/dcnh/gradeprojectpage")
-	public String getgradeprojectpage(){
+	public String getgradeprojectpage() {
 		return "/dcnh/judge/gradedprojectpage";
 	}
-	
+
 	@RequestMapping("/dcnh/notgradedproject")
-	public String getnotgradeproject(){
+	public String getnotgradeproject() {
 		return "/dcnh/judge/notgradedproject";
 	}
-	
+
 	@RequestMapping("/dcnh/judgeshowproject")
-	public String getjudgeshowproject(){
+	public String getjudgeshowproject() {
 		return "/dcnh/judge/judgeshowproject";
 	}
 }

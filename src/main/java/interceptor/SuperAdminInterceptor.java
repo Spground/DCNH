@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class SuperAdminInterceptor {
-	
+
 	@Pointcut("execution(public * dcnh.controller.SuperAdminController.* )")
-	public void checkPermission(){}
-	
+	public void checkPermission() {
+	}
+
 	@Before("checkPermission()")
-	public void doBefore(JoinPoint joinPoint){
-		
+	public void doBefore(JoinPoint joinPoint) {
+
 	}
 }

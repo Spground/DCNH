@@ -7,7 +7,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dcnh.globalInfo.UserPermission;
+import dcnh.global.UserPermission;
 import dcnh.mapper.UserDBMapper;
 import dcnh.mode.BaseUser;
 import dcnh.mode.UserInfo;

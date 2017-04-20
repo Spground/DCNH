@@ -4,12 +4,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import dcnh.dbservice.UserDBService;
-import dcnh.globalInfo.Href;
-import dcnh.globalInfo.ResponseCode;
-import dcnh.globalInfo.SessionKey;
-import dcnh.globalInfo.UserPermission;
+import dcnh.global.Href;
+import dcnh.global.ResponseCode;
+import dcnh.global.SessionKey;
+import dcnh.global.UserPermission;
 import dcnh.mode.BaseUser;
 import dcnh.mode.ResponseMessage;
 import dcnh.myutil.SHA256;
