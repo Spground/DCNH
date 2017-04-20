@@ -4,12 +4,15 @@
 	   <input id="schoolcount" style="width:100px;" type="text" class="form-control" placeholder="校级管理员个数"></input>
 	   <button type="button" class="btn btn-success" onclick="showUserInfo()">自动生成专家账户账户</button>
 	    <input id="schoolcount" style="width:100px;" type="text" class="form-control" placeholder="校级管理员个数"></input>-->
-	   <button type="button" class="btn btn-success" onclick="showUserInfo()">查看已有账户</button> 
+	   <button type="button" class="btn btn-success" onclick="showUserInfo('1')">查看已有账户</button> 
 	    <select id="permission" class="selectpicker">
 	     <option>校级管理员</option>
 		  <option>专家账户</option>
 		  <option>系统管理员</option>
 		</select>
+		
+		<input id="schoolName" type="text" placeholder="请输入学校全称查找用户" style="margin-left:50px"></input>
+		<button  type="button" class="btn btn-success" onclick="showUserInfo('2')">查找</button>
 		 <div id="show">
 	   </div>
 </div>

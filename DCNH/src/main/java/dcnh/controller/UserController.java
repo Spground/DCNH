@@ -42,34 +42,6 @@ public class UserController {
 		return userinfo;
 	}
 	
-	@RequestMapping("/dcnh/addnewuser")
-	@ResponseBody
-	public ResponseMessage addNewAccount(@RequestParam String userName,@RequestParam String password,
-			@RequestParam  String school,@RequestParam String  permission){
-		ResponseMessage response  = accountManageHandler.addNewuser(userName,password,school,permission);
-		return response;
-	}
 	
-	@RequestMapping("/dcnh/deleteuser")
-	@ResponseBody
-	public ResponseMessage deleteAccount(HttpSession session,@RequestParam String userName){
-		return accountManageHandler.deleteAccount(session, userName);
-	}
-	
-	@RequestMapping("/dcnh/getalluserinfo")
-	@ResponseBody
-	public List<UserInfo> getAllUserInfo(HttpSession session,@RequestParam String permission){
-		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
-		return accountManageHandler.getAllUserInfo(user,permission);
-	}
-	
-	@RequestMapping("/dcnh/addschooluser")
-	@ResponseBody
-	public ResponseMessage addNewAccount(@RequestParam String userName,@RequestParam String password,
-			@RequestParam  String school,@RequestParam String  permission,
-			@RequestParam int paper,@RequestParam int project,@RequestParam int startup,
-			@RequestParam int creative){
-		return accountManageHandler.addNewuser(userName, password, school, permission, paper, project, startup, creative);
-	}
 
 }

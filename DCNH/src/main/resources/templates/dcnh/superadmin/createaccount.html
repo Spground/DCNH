@@ -33,14 +33,17 @@
 			 </select>
 			</div><br></br>
 			
-			<div class="input-group">
-				<span class="input-group-addon">学术论文类</span>
-				<input id="paper" style="width:400px;" type="text"
-				onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" 
-				 class="form-control" placeholder="请填写分配数目，默认是0"></input>
-			</div><br></br>
 			
-			<div class="input-group">
+			<div id="category"  v-for= "mainCategory in mainCategoryList">
+				<div class="input-group">
+					<span class="input-group-addon">{{mainCategory}}</span>
+					<input id="{{mainCategory}}" style="width:400px;" type="text"
+					onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" 
+					 class="form-control" placeholder="请填写分配数目，默认是0"></input>
+				 </div><br/>
+			</div>
+			
+		<!-- 	<div class="input-group">
 				<span class="input-group-addon">展示项目</span>
 				<input id="project" style="width:400px;" type="text" 
 				onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" 
@@ -60,7 +63,7 @@
 				onafterpaste="this.value=this.value.replace(/\D/g,'')" 
 				 type="text" class="form-control" placeholder="请填写分配数目，默认是0"></input>
 			</div><br></br>
-			
+			 -->
 			<div class="input-group">
 				<button type="button"  class="btn btn-info" onclick="addNewAccount()">创建账号</button>
 			</div>

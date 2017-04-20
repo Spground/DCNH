@@ -23,6 +23,10 @@ public class UserDBService {
 		return userDBMapper.getUserByUserName(userName);
 	}
 	
+	public List<UserInfo> getUserBySchool(String schoolName){
+		return userDBMapper.getAllUserInfoBySchool(schoolName);
+	}
+	
 	public int addNewUser(BaseUser user){
 		try{
 		return userDBMapper.addNewUser(user,user.getPermission().getCode());

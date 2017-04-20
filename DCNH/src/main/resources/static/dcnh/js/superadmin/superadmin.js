@@ -9,6 +9,8 @@ var list = [
 		}
 ];
 
+var mainCategoryList=[];//大创项目大类
+
 var showUser;
 
 var showProject;
@@ -20,7 +22,7 @@ function accountManage(){
 }
 
 /*
- * 获取显示的页面内容
+ * 获取显示的页面内容 创建账户的页面
  */
 function setCreateaccountPage(){
 	$.ajax({
@@ -29,6 +31,7 @@ function setCreateaccountPage(){
 	      dataType: 'text',
 	      success: function(data){
 	    	  $("#show").html(data);
+	    	  getMainCategory();
 	      }
 	});
 }
@@ -43,6 +46,7 @@ function setAccountMangePage(){
 	      dataType: 'text',
 	      success: function(data){
 	    	  $("#contains").html(data);
+	    	  
 	      }
 	});
 }
@@ -57,12 +61,30 @@ function addNewAccount(){
 	var password1 = $("#password1").val();
 	var password2 = $("#password2").val();
 	var permission=$("#accountpermission").find("option:selected").text();
+	var param = {
+			password:password1,
+			userName:userName,
+			school :school,
+			permission:permission
+	};;
+	/* param.put("password",password1);
+	 param.put("userName",userName);
+	 param.put("school",school);
+	 param.put("permission",permission);
+	 /*
+	  * {
+			
+			:userName,
+			school :school,
+			permission:permission
+	};
+	  */
 	
 	if(!check()){
 		return;
 	}
 	if(permission=="校级管理员"){
-		var paper = $("#paper").val();
+	/*	var paper = $("#paper").val();
 		var project = $("#project").val();
 		var startup = $("#startup").val();
 		var creative = $("#creative").val();
@@ -81,12 +103,19 @@ function addNewAccount(){
 				startup:startup,
 				creative:creative
 		}
-		
+		*/
+		for(var index in mainCategoryList){
+			console.log(mainCategoryList[index]);
+			var key = mainCategoryList[index];
+			var val = $('#'+mainCategoryList[index]).val();
+			if(val==null || val=='') val="0";
+			param[key]=val;
+		}
 		$.ajax({
 			url:'/dcnh/addschooluser',
 			type:'post',
 			dataType: 'json',
-			data:param1,
+			data:param,
 			success:function(data){
 				  if(data.code == 0)
 		    	  {
@@ -100,13 +129,6 @@ function addNewAccount(){
 			}
 		});
 		return;
-	}
-	
-	var param= {
-				password:password1,
-				userName:userName,
-				school :school,
-			permission:permission
 	}
 	$.ajax({
 		  url: '/dcnh/addnewuser',
@@ -177,16 +199,31 @@ function getAllUserInfo(){
 	      dataType: 'json',
 	      data:param,
 	      success: function(data){
-	    	 
 	    	  showUser.userList = data;
 	      }
 	});
 }
 
+
+function showUserBySchool(){
+	var schoolName = $("#schoolName").val();
+	$.ajax({
+		url:'/dcnh/getuserbyschool',
+		type:'post',
+		dataType:'json',
+		data:{
+			school:schoolName,
+		},
+		success:function(data){
+			showUser.userList = data;
+		}
+	});
+}
+
 /*
- * 显示账户信息
+ * 显示用户列表信息
  */
-function showUserInfo(){
+function showUserInfo(param){
 	$.ajax({
 		  url: '/dcnh/getshowuserinfopage',
 	      type: 'get',
@@ -239,9 +276,30 @@ function showUserInfo(){
 	    				}
 	    			}
 	    		});
-	    	  getAllUserInfo();
+	    	  if(param==1)
+	    		  getAllUserInfo();
+	    	  else
+	    		  showUserBySchool();
 	      }
 	});
 }
 
-
+/*
+ * 获取大创项目大类类别
+ */
+function getMainCategory(){
+	$.ajax({
+		url:"/dcnh/getallmaincategory",
+		type:'get',
+		dataType:'json',
+		success:function(data){
+			mainCategoryList = data;
+			var mainCategory = new Vue({
+				el:'#category',
+				data:{
+					mainCategoryList:data
+				}
+			});
+		}
+	});
+}

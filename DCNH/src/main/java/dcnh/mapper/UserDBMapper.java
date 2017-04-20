@@ -52,4 +52,15 @@ public interface UserDBMapper {
 	@Select("SELECT user_name,school,phone_number,email FROM dcnh.user_table where permission=#{permission};")
 	public List<UserInfo> getAllUserInfo(@Param("permission") int permission);
 	
+	@Results({
+		@Result(property="userName",column="user_name",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="password",column="password",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="school",column="school",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="phoneNumber",column="phone_number",javaType=String.class,jdbcType=JdbcType.VARCHAR),
+		@Result(property="email",column="email",javaType=String.class,jdbcType=JdbcType.VARCHAR)
+	})
+	@Select("SELECT user_name,school,phone_number,email FROM dcnh.user_table where school=#{school};")
+	public List<UserInfo> getAllUserInfoBySchool(@Param("school") String school);
+	
+	
 }

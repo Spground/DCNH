@@ -2,6 +2,7 @@ package dcnh.handler;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -68,11 +69,13 @@ public class AccountManageHandler {
 	/*
 	 * 等有时间必须重写,应该作为一个事务，呵呵
 	 */
-	public ResponseMessage addNewuser(String userName,String password,String school,String permission,
-			int paper,int project,int startup,int creative){
-		
+	public ResponseMessage addNewSchooluser(Map<String,String> userInfoMap){
+		String userName = userInfoMap.get("userName");
+		String password = userInfoMap.get("password");
+		String school = userInfoMap.get("school");
+		String permission = userInfoMap.get("permission");
 		ResponseMessage response = addNewuser(userName,password,school,permission);
-		if(response.getCode() == ResponseCode.SUCCESS.ordinal()){
+		/*if(response.getCode() == ResponseCode.SUCCESS.ordinal()){
 			if(paper>0){
 				int categoryId = categoryCache.getIdByName("学术论文");
 				projectDBService.saveUserProject(userName, categoryId, paper);
@@ -91,7 +94,7 @@ public class AccountManageHandler {
 				int categoryId = categoryCache.getIdByName("创意作品");
 				projectDBService.saveUserProject(userName, categoryId, paper);
 			}
-		}
+		}*/
 		return response;
 		
 	}
@@ -132,6 +135,10 @@ public class AccountManageHandler {
 		if(userPermission==null) return userList;
 		userList = userDBService.getAllUserInfo(userPermission);
 		return userList;
+	}
+	
+	public List<UserInfo> getAllUserInfoBySchool(String schoolName){
+		return userDBService.getUserBySchool(schoolName);
 	}
 	
 	private boolean checkUserInfo(BaseUser user,String permission,ResponseMessage response){
