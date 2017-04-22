@@ -13,8 +13,10 @@ import dcnh.global.SessionKey;
 import dcnh.handler.ProjectManageHandler;
 import dcnh.mode.BaseUser;
 import dcnh.mode.ResponseMessage;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class SchoolAdminController {
 	@Autowired
 	private ProjectManageHandler projectManageHandler;
@@ -28,9 +30,9 @@ public class SchoolAdminController {
 			@RequestParam("attachement_id") String attachementId) {
 
 		// 先新建一个项目
-
+		log.info("###" + mainCategoryName + "###" +subcategory);
 		// 保存文件
-
+		
 		// 将附件路径写库
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
 		ResponseMessage response = projectManageHandler.addNewProject(user, mainCategoryName, subcategory, teacher,

@@ -23,6 +23,7 @@
 <script type='text/javascript' src="/dcnh/js/vue.js"></script>
 <script type='text/javascript' src="/dcnh/js/accountManage.js"></script>
 <script type='text/javascript' src="/dcnh/js/judge/judge.js"></script>
+<script src="/dcnh/js/setuserinfopage.js"></script>
 </head>
 
 <body onload="onload()">
@@ -41,7 +42,7 @@
 					<ul class="nav navbar-nav navbar-right">
 
 						<li><a id="userName" href="#"></a></li>
-						<li><a href="/logout">退出</a></li>
+						<li><a href="/dcnh/logout">退出</a></li>
 					</ul>
 					<!-- <form class="navbar-form navbar-right">
 		            <input type="text" class="form-control" placeholder="Search...">
@@ -63,8 +64,8 @@
 			<div class="row ">
 				<div class="col-sm-3 col-md-2 sidebar">
 					<div class="menu-list" style="height: 820px">
-						<a href="#" class="menu-button-middle" onclick="getproject()"> <span class="glyphicon glyphicon-th-large">&nbsp;查看项目</span>
-						</a> <a href="#" class="menu-button-middle"><span class="glyphicon glyphicon glyphicon-user">&nbsp;个人信息</span></a>
+						<a href="#" class="menu-button-middle" onclick="getproject()"> <span class="glyphicon glyphicon-th-large">&nbsp;查看项目</span></a> 
+						<a href="#" class="menu-button-middle" onclick="setUserinfoPage()"><span class="glyphicon glyphicon glyphicon-user">&nbsp;个人信息</span></a>
 					</div>
 
 

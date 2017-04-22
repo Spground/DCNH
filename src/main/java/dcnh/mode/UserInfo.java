@@ -8,7 +8,7 @@ public class UserInfo {
 	private String email = "";
 	private String phoneNumber = "";
 	private String school = "";
-
+	private String permission = "";
 	public UserInfo() {
 
 	}
@@ -18,6 +18,7 @@ public class UserInfo {
 			this.email = user.getEmail();
 			this.school = user.getSchool();
 			this.userName = user.getUserName();
+			this.permission = user.getPermission().getName();
 		}
 	}
 }

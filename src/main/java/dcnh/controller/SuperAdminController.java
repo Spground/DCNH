@@ -159,7 +159,8 @@ public class SuperAdminController {
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
 		return accountManageHandler.getAllUserInfo(user, permission);
 	}
-
+	
+	//增加校级管理员用户
 	@RequestMapping("/dcnh/addschooluser")
 	@ResponseBody
 	public ResponseMessage addNewSchoolAccount(@RequestParam Map<String, String> userInfoMap) {

@@ -1,5 +1,3 @@
-
-
 var list = [
 		{
 			userName:"name",
@@ -15,8 +13,6 @@ var showUser;
 
 var showProject;
 
-
-
 function accountManage(){
 	 setAccountMangePage();
 }
@@ -31,7 +27,16 @@ function setCreateaccountPage(){
 	      dataType: 'text',
 	      success: function(data){
 	    	  $("#show").html(data);
-	    	  getMainCategory();
+	    	  accountType = $("#permission").val();
+	    	  if(accountType == "校级管理员") {
+	    		  getMainCategory();
+	    	  } else {
+	    		  console.log("不是校级管理员");
+	    		  //非校级管理员，需要移除多余的输入项
+	    		  $("#category").remove();//删除类别分配数量
+	    		  if(accountType == "系统管理员")
+	    			  $("#school_div").remove();//删除学校，系统管理员不需要学校
+	    	  }
 	      }
 	});
 }
@@ -39,14 +44,13 @@ function setCreateaccountPage(){
 /*
  * 显示账户管理页面
  */
-function setAccountMangePage(){
+function setAccountMangePage(accountType){
 	$.ajax({
 		  url: '/dcnh/getaccountmanagepage',
 	      type: 'get',
 	      dataType: 'text',
 	      success: function(data){
 	    	  $("#contains").html(data);
-	    	  
 	      }
 	});
 }
@@ -60,50 +64,18 @@ function addNewAccount(){
 	var school = $("#school").val();
 	var password1 = $("#password1").val();
 	var password2 = $("#password2").val();
-	var permission=$("#accountpermission").find("option:selected").text();
+	var permission=$("#permission").find("option:selected").text();
+	console.log("accountPermission" + permission);
 	var param = {
 			password:password1,
 			userName:userName,
 			school :school,
 			permission:permission
-	};;
-	/* param.put("password",password1);
-	 param.put("userName",userName);
-	 param.put("school",school);
-	 param.put("permission",permission);
-	 /*
-	  * {
-			
-			:userName,
-			school :school,
-			permission:permission
 	};
-	  */
-	
 	if(!check()){
 		return;
 	}
 	if(permission=="校级管理员"){
-	/*	var paper = $("#paper").val();
-		var project = $("#project").val();
-		var startup = $("#startup").val();
-		var creative = $("#creative").val();
-		if(paper=="") paper="0";
-		if(project=="") project="0";
-		if(startup=="") startup="0";
-		if(creative=="")creative="0";
-		console.log(paper+" "+project+" "+startup+" "+creative);
-		var param1 = {
-				userName:userName,
-				password:password1,
-				school :school,
-				permission:permission,
-				paper:paper,
-				project:project,
-				startup:startup,
-				creative:creative
-		}
-		*/
 		for(var index in mainCategoryList){
 			console.log(mainCategoryList[index]);
 			var key = mainCategoryList[index];
@@ -153,11 +125,13 @@ function addNewAccount(){
  * 账户信息检查
  */
 function check(){
+	var accountType = $("#permission").val();
 	var userName = $("#newUserName").val();
 	var school = $("#school").val();
 	var password1 = $("#password1").val();
 	var password2 = $("#password2").val();
-	if(school=="" || school==null){
+	
+	if(accountType != "系统管理员" && (school=="" || school==null)){
 		alert("学校信息不能为空");
 		return false;
 	}
@@ -302,4 +276,9 @@ function getMainCategory(){
 			});
 		}
 	});
+}
+
+//但选择的账户类别改变时，clear创建账户的界面
+function permssionSelectChange(select) {
+	$("#show").empty();
 }

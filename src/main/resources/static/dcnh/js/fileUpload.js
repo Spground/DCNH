@@ -2,10 +2,11 @@ var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
 var mData = null;
 
 function fileChange(target) {
+	alert("file Change" + target.value);
 	var fileSize = 0;
 	var filetypes = [".rar", ".zip"];
 	var filepath = target.value;
-	var filemaxsize = 1024 * 50;// 50M
+	var filemaxsize = 1024 * 20;// 20M
 	if (filepath) {
 		var isnext = false;
 		var fileend = filepath.substring(filepath.indexOf("."));
@@ -39,6 +40,7 @@ function fileChange(target) {
 	}
 
 	var size = fileSize / 1024;
+	console.log("fileSize is " + size);
 	if (size > filemaxsize) {
 		modalAlert("附件大小不能大于" + filemaxsize / 1024 + "M！");
 		target.value = "";

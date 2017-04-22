@@ -1,27 +1,47 @@
 <div>
-	 <div class="form-group col-lg-offset-5">
-	  	<label for="fullname">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
-	  	<input type="text" class="form-control" name="username" id="username"  value="" placeholder="您的真实姓名">	
-	  </div>
-	  
-	  <br></br>
-	  <br></br>
-	  <div class="form-group col-lg-offset-5">
-	  	<label for="password">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
-	  	<input type="password" class="form-control" name="password" id="password" value="" placeholder="">
-	  </div>
-	  
-	  <br></br>
-	  <br></br>
-	  <div class="form-group col-lg-offset-5">
-	  	<label for="password">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
-	  	<input type="password" class="form-control" name="password" id="password" value="" placeholder="">
-	  </div>
-	  
-	  <br></br>
-	  <br></br>
-	  <div class="form-group col-lg-offset-5">
-	  	<label for="password">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
-	  	<input type="password" class="form-control" name="password" id="password" value="" placeholder="">
-	  </div>
+	<div class="row">
+		<form class="form-horizontal" role="form" disabled="true">
+		
+			<!-- 用户名 -->
+			<div class="form-group form-group-small">
+				<label for="fullname" class="col-sm-2 control-label">用户名</label>
+				<div class="col-sm-10 col-md-4">
+					<input type="text" class="form-control" id="fullname"  placeholder="无" readonly="readonly" />
+				</div>
+			</div>
+
+			<!-- 邮箱 -->
+			<div class="form-group form-group-small">
+				<label for="email" class="col-sm-2 control-label">邮箱</label>
+				<div class="col-sm-10 col-md-4">
+					<input type="text" class="form-control" id="email" name="school"  placeholder="无" readonly="readonly" />
+				</div>
+			</div>
+			
+			<!-- 电话号码 -->
+			<div class="form-group form-group-small">
+				<label for="tel" class="col-sm-2 control-label">电话号码</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" id="tel" placeholder="无" readonly="readonly"/>
+				</div>
+			</div>
+			
+			<!-- 账户类型 -->
+			<div class="form-group form-group-small">
+				<label for="accountType" class="col-sm-2 control-label">账户类型</label>
+				<div class="col-sm-10 col-md-4">
+					<input type="text" class="form-control" id="accountType" placeholder="无" readonly="readonly" />
+				</div>
+			</div>
+			
+			<!-- 学校 -->
+			<!-- 账户类型 -->
+			<div class="form-group form-group-small">
+				<label for="school" class="col-sm-2 control-label">学校</label>
+				<div class="col-sm-10 col-md-4">
+					<input type="text" class="form-control" id="school" placeholder="无" readonly="readonly" />
+				</div>
+			</div>
+		</form>
+	</div>
 </div>

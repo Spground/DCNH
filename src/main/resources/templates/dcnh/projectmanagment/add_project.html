@@ -73,18 +73,11 @@
 			<div class="form-group form-group-small">
 				<label for="attachement_file" class="col-sm-2 control-label">附件上传</label>
 				<div class="col-md-6">
-					<input type="file" class="form-control" id="attachement_file" name="attachement_file" onchange="" />
-					<p class="help-block">上传后缀为.rar或者zip文件.提交前先点击上传按钮</p>
-					<p class="helip-block" id="fileError"></p>
+					<input type="file" class="form-control" id="attachement_file" name="attachement_file"/>
+					<p class="help-block"><b>(1) 上传文件格式为rar或zip的附件</b> <b>(2) 附件大小不超过20M</b> <b>(3) 点击 提交 按钮前先点击 上传 按钮</b></p>
+					<p class="help-block" id="fileError"></p>
 				</div>
 			</div>
-			<!-- 	<div class="progress col-md-6 col-md-offset-2">
-				<div class="progress-bar" role="progressbar" aria-valuenow="60"
-					aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-					<span class="sr-only">60% Complete</span>
-				</div>
-			</div> -->
-
 			<div class="form-group form-group-small">
 				<div class="col-sm-offset-2 col-md-6">
 					<button type="button" id="submitBtn" class="btn btn-md btn-block btn-primary" onclick="postNewProject();">提交</button>

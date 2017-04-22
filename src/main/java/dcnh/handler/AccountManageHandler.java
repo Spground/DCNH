@@ -66,29 +66,46 @@ public class AccountManageHandler {
 	}
 
 	/*
-	 * 等有时间必须重写,应该作为一个事务，呵呵
+	 * TODO 等有时间必须重写,应该作为一个事务，呵呵
 	 */
 	public ResponseMessage addNewSchooluser(Map<String, String> userInfoMap) {
 		String userName = userInfoMap.get("userName");
 		String password = userInfoMap.get("password");
 		String school = userInfoMap.get("school");
 		String permission = userInfoMap.get("permission");
-		ResponseMessage response = addNewuser(userName, password, school, permission);
-		/*
-		 * if(response.getCode() == ResponseCode.SUCCESS.ordinal()){
-		 * if(paper>0){ int categoryId = categoryCache.getIdByName("学术论文");
-		 * projectDBService.saveUserProject(userName, categoryId, paper); }
-		 * 
-		 * if(project > 0){ int categoryId = categoryCache.getIdByName("展示项目");
-		 * projectDBService.saveUserProject(userName, categoryId, paper); }
-		 * 
-		 * if(startup>0){ int categoryId = categoryCache.getIdByName("创业直通车项目");
-		 * projectDBService.saveUserProject(userName, categoryId, paper); }
-		 * if(creative>0){ int categoryId = categoryCache.getIdByName("创意作品");
-		 * projectDBService.saveUserProject(userName, categoryId, paper); } }
-		 */
-		return response;
 
+		int paperCount = Integer.parseInt(userInfoMap.get("学术论文").trim());
+		int showProjectCount = Integer.parseInt(userInfoMap.get("展示项目").trim());
+		int chuangyeCount = Integer.parseInt(userInfoMap.get("创业直通车项目").trim());
+		int chuangyiCount = Integer.parseInt(userInfoMap.get("创意作品").trim());
+
+		System.out.println(userInfoMap);
+		
+		//先创建用户	
+		ResponseMessage response = addNewuser(userName, password, school, permission);
+		//更新用户-项目表
+		if (response.getCode() == ResponseCode.SUCCESS.ordinal()) {
+			if (paperCount > 0) {
+				int categoryId = categoryCache.getIdByName("学术论文");
+				projectDBService.saveUserProject(userName, categoryId, paperCount);
+			}
+
+			if (showProjectCount > 0) {
+				int categoryId = categoryCache.getIdByName("展示项目");
+				projectDBService.saveUserProject(userName, categoryId, showProjectCount);
+			}
+
+			if (chuangyeCount > 0) {
+				int categoryId = categoryCache.getIdByName("创业直通车项目");
+				projectDBService.saveUserProject(userName, categoryId, chuangyeCount);
+			}
+
+			if (chuangyiCount > 0) {
+				int categoryId = categoryCache.getIdByName("创意作品");
+				projectDBService.saveUserProject(userName, categoryId, chuangyiCount);
+			}
+		}
+		return response;
 	}
 
 	public ResponseMessage deleteAccount(HttpSession session, String userName) {
