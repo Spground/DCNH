@@ -1,3 +1,4 @@
+//添加项目的js
 function postNewProject() {
 	// 验证是否为空
 	var data = $("#mform").serializeArray();
@@ -30,7 +31,7 @@ function postNewProject() {
 	}
 	
 	console.log(participatorsArray);
-	
+	//开始上传项目
 	$.ajax({
 		url:"/dcnh/addnewproject",
 		type:"POST",
@@ -47,22 +48,18 @@ function postNewProject() {
 		success:function(data) {
 			//清空，附件ID
 			$("#attachementId").val("");
-			if(data.code == 0) {
-				//alert(data.message);
-				//重置表单
-				resetForm();
-			}	
-			else
-				alert(data.message);
-			
+			resetForm();
+			modalAlert(data.message);	
 		},
 		error:function() {
-			alert("项目上传失败，请重新尝试！");
+			resetForm();
+			modalAlert("项目上传失败，请重新尝试！");
 		}
 	});
 }
 
+//重置表单
 function resetForm() {
-	removeAddProjectPage();
-	setAddPrjctPage();
+	$("#mform").remove();
+	console.log("删除表单")
 }

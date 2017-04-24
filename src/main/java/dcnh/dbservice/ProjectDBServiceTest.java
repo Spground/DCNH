@@ -1,37 +1,30 @@
-package dcnh.handler;
-
-import static org.junit.Assert.*;
+package dcnh.dbservice;
 
 import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import dcnh.ApplicationContext;
-import dcnh.dbservice.ProjectDBService;
-import dcnh.mode.ResponseMessage;
 
 /**
 *@author WuJie
-*@date 2017年4月23日下午10:12:39
+*@date 2017年4月23日下午9:05:33
 *@version 1.0
 **/
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
 @SpringBootTest(classes=ApplicationContext.class)
-public class ProjectManageHandlerTest {
-	@Autowired
-	private ProjectManageHandler handler;;
-	
+public class ProjectDBServiceTest {
+	@Resource
+	ProjectDBService service;
 	@Test
 	public void testDeleteProjectByIdAndSchoolName() {
-		ResponseMessage response = new ResponseMessage();
-		handler.deleteProjectByIdAndSchoolName(13, "大连海事大学", response, "dmu", "创意作品");
-		assert(response.getCode() == 1);
+		int count = service.deleteProjectByIdAndSchoolName(11, "大连理工大");
+		assert(count != 1);
 	}
 
 }

@@ -1,6 +1,8 @@
 package dcnh.mapper;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
@@ -116,5 +118,11 @@ public interface ProjectDBMapper {
 
 	@Select("SELECT count(project_id) FROM dcnh.project_table where category= #{category};")
 	public int getProjectCount(@Param("category") String category);
+	
+	@Delete("DELETE FROM dcnh.project_table WHERE project_id=#{projectid} AND school=#{schoolName};")
+	public int deleteInnovationProjectByProjectIDAndSchoolName(@Param("projectid")int id, @Param("schoolName") String schoolName);
+	
+	@Delete("DELETE FROM dcnh.project_table WHERE project_id=#{projectid};")
+	public int deleteInnovationProjectByProjectID(int projectId);
 
 }

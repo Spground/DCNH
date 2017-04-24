@@ -63,7 +63,14 @@ public class AttachementHandler {
 		}
 
 	}
-
+	
+	/**
+	 * 上传附件
+	 * @param file
+	 * @param fileName
+	 * @return
+	 * @throws IOException
+	 */
 	public String uploadFile(MultipartFile file, String fileName) throws IOException {
 		String path = env.getProperty("rootPath");
 		String uuid = UUIGenerator.getUUID();
@@ -89,7 +96,6 @@ public class AttachementHandler {
 			}
 		}
 		return filename;
-
 	}
 
 }

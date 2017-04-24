@@ -93,7 +93,7 @@ function getProjectList(kind){
 			
 			for(var index in data){
 				if(data[index]!=null &&data[index].attachmentId !=null)
-					data[index].attachmentId = "/getattachement/"+data[index].attachmentId;
+					data[index].attachmentId = "/dcnh/getattachement/"+data[index].attachmentId;
 			}
 			judgeshowProject.projectList = data;
 		//	alert("####");

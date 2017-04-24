@@ -147,4 +147,22 @@ public class ProjectDBService {
 	public int getProjectCountCategory(String category) {
 		return projectDBMapper.getProjectCount(category);
 	}
+	
+	/**
+	 * 根据项目ID和学校名称删除项目
+	 * @param projectId
+	 * @return
+	 */
+	public int deleteProjectByIdAndSchoolName(int projectId, String schoolName) {
+		return projectDBMapper.deleteInnovationProjectByProjectIDAndSchoolName(projectId, schoolName);
+	}
+	
+	/**
+	 * 根据项目ID删除项目
+	 * @param projectId
+	 * @return
+	 */
+	public int deleteProjectById(int projectId) {
+		return projectDBMapper.deleteInnovationProjectByProjectID(projectId);
+	}
 }

@@ -68,12 +68,41 @@ function showProjectpage(){
 		url:'/dcnh/getshowprojectpage',
 		type:'get',
 		dataType:'text',
-		success:function(data){
+		success:function(data) {
 			$("#contains").html(data);
 			showProject =   new Vue({
     			el:'#projectTable',
     			data:{
     				projectList:projectList
+    			},
+    			methods : {//绑定删除函数
+					deleteProject : function(index) {
+						if(!confirm("确认删除该项目吗？"))
+								return;
+						if(index >= this.projectList[index].length)
+    						return;
+						//开始删除
+						var toDeleteProject = this.projectList[index];
+						console.log(this.projectList);
+						//开始删除项目
+						$.ajax({
+  						  url: '/dcnh/deleteproject',
+  					      type: 'post',
+  					      dataType: 'json',
+  					      data:{
+  					    	projectid: toDeleteProject.projectId,
+  					    	school: toDeleteProject.school,
+  					    	maincategory:toDeleteProject.mainCategory
+  					      },
+  					      success : function(data) {
+  					    	 alert("删除成功！");
+  					    	 console.log(data);
+  					    	 console.log(this.projectList);
+  					    	 showAllProject();
+  					      }
+						});
+  
+					}
     			}
     		});
 			showAllProject();
@@ -92,7 +121,7 @@ function showAllProject(){
 		success:function(data){
 			for(var index in data){
 				if(data[index]!=null &&data[index].attachmentId !=null)
-					data[index].attachmentId = "/getattachement/"+data[index].attachmentId;
+					data[index].attachmentId = "/dcnh/getattachement/"+data[index].attachmentId;
 			}
 			showProject.projectList = data;
 		}

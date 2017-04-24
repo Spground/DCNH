@@ -16,6 +16,7 @@ var school_projectList = [ {
 } ];
 
 var school_showProjectVue;
+var deletedIndex;
 
 function getaddProjectPage() {
 	$.ajax({
@@ -39,6 +40,35 @@ function school_showProjectpage() {
 				el : '#projectTable',
 				data : {
 					projectList : school_projectList
+				},
+				methods : {//绑定删除函数
+					deleteProject : function(index) {
+						if(!confirm("确认删除该项目吗？"))
+								return;
+						if(index >= this.projectList[index].length)
+    						return;
+						//开始删除
+						var toDeleteProject = this.projectList[index];
+						console.log(this.projectList);
+						//开始删除项目
+						$.ajax({
+  						  url: '/dcnh/schooladmin/deleteproject',
+  					      type: 'post',
+  					      dataType: 'json',
+  					      data:{
+  					    	projectid: toDeleteProject.projectId,
+  					    	maincategory: toDeleteProject.mainCategory,
+  					    	school: toDeleteProject.school
+  					      },
+  					      success : function(data) {
+  					    	 alert(data.message);
+  					    	 console.log(data);
+  					    	 console.log(this.projectList);
+  					    	 school_showProject();
+  					      }
+						});
+  
+					}
 				}
 			});
 			school_showProject();

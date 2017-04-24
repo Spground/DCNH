@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import dcnh.global.ProjectManagementInfo;
 import dcnh.global.ResponseCode;
 import dcnh.global.SessionKey;
@@ -159,12 +158,38 @@ public class SuperAdminController {
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
 		return accountManageHandler.getAllUserInfo(user, permission);
 	}
-	
-	//增加校级管理员用户
+
+	// 增加校级管理员用户
 	@RequestMapping("/dcnh/addschooluser")
 	@ResponseBody
 	public ResponseMessage addNewSchoolAccount(@RequestParam Map<String, String> userInfoMap) {
 		return accountManageHandler.addNewSchooluser(userInfoMap);
 	}
-
+	
+	/**
+	 * 超级管理员删除项目
+	 * @param session
+	 * @param projectId
+	 * @param schoolName
+	 * @param mainCategory
+	 * @return
+	 */
+	@RequestMapping("/dcnh/deleteproject")
+	@ResponseBody
+	public ResponseMessage deleteProjectById(HttpSession session, @RequestParam("projectid") int projectId,
+			@RequestParam("school") String schoolName, @RequestParam("maincategory") String mainCategory) {
+		ResponseMessage responseMessage = new ResponseMessage();
+		BaseUser user = null;
+		if ((user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name())) == null) {
+			responseMessage.setCode(ResponseCode.FAILED.ordinal());
+			responseMessage.setMessage("未登录");
+			return responseMessage;
+		} else if (!user.getPermission().equals(UserPermission.SUPERADMIN)) {
+			responseMessage.setCode(ResponseCode.FAILED.ordinal());
+			responseMessage.setMessage("没有权限");
+			return responseMessage;
+		} else
+			projectManageHandler.deleteProjectById(projectId, schoolName, mainCategory, responseMessage);
+		return responseMessage;
+	}
 }

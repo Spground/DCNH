@@ -17,6 +17,7 @@
 				      <th>所属小类</th>
 				      <th>评分</th>
 				      <th>附件</th>
+				      <th>操作</th>
 				    </tr>
 				  </thead>
 				  <tbody>
@@ -29,6 +30,7 @@
 				      <td>{{project.subCategory}}</td>
 				      <td>{{project.score}}</td>
 				      <td><a v-bind:href="project.attachmentId">附件</a></td>
+				      <td><button type="button" class="btn btn-danger" value = "project.id" v-on:click="deleteProject($index)">删除</button></td>
 				    </tr>
 				  </tbody>
 			</table>
