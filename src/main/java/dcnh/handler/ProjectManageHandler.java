@@ -194,7 +194,8 @@ public class ProjectManageHandler {
 			// 将上传数量更新
 			projectDBService.updateUploadCount(user.getUserName(), categoryId, uploadedCount + 1);
 			response.setCode(ResponseCode.SUCCESS.ordinal());
-			response.setMessage(String.format("新建项目成功，您已经上传项目%d个，剩余%d个。", uploadedCount + 1, maxUploadCount - (uploadedCount + 1)));
+			response.setMessage(
+					String.format("新建项目成功，您已经上传项目%d个，剩余%d个。", uploadedCount + 1, maxUploadCount - (uploadedCount + 1)));
 		} else {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("新建项目失败，请重新尝试。");
@@ -287,47 +288,54 @@ public class ProjectManageHandler {
 		}
 		return resultMap;
 	}
-	
+
 	/**
 	 * 通过项目ID和学校名称删除某个学校名下的项目
+	 * 
 	 * @param projectId
 	 * @return
 	 */
-	public void deleteProjectByIdAndSchoolName(int projectId, String schoolName, ResponseMessage responseMessage, String userName, String mainCategory) {
-		
+	public void deleteProjectByIdAndSchoolName(int projectId, String schoolName, ResponseMessage responseMessage,
+			String userName, String mainCategory) {
+
 		int count = projectDBService.deleteProjectByIdAndSchoolName(projectId, schoolName);
-		
-		if(count == 0) {
+
+		if (count == 0) {
 			responseMessage.setCode(ResponseCode.FAILED.ordinal());
 			responseMessage.setMessage("删除失败，请检查是否有权限！");
 		} else {
 			responseMessage.setCode(ResponseCode.SUCCESS.ordinal());
 			responseMessage.setMessage("删除项目成功， 项目ID为！" + projectId);
-			//更新user-project表,将已经上传的数量减一
-			projectDBService.updateUploadCount(userName, categoryCache.getIdByName(mainCategory), projectDBService.getUploadProjectCount(userName, categoryCache.getIdByName(mainCategory)) - 1);
+			// 更新user-project表,将已经上传的数量减一
+			projectDBService.updateUploadCount(userName, categoryCache.getIdByName(mainCategory),
+					projectDBService.getUploadProjectCount(userName, categoryCache.getIdByName(mainCategory)) - 1);
 		}
 	}
-	
+
 	/**
 	 * 通过项目ID删除某个项目
+	 * 
 	 * @param projectId
 	 * @return
 	 */
-	public void deleteProjectById(int projectId, String schoolName, String mainCategory, ResponseMessage responseMessage) {
+	public void deleteProjectById(int projectId, String schoolName, String mainCategory,
+			ResponseMessage responseMessage) {
 
 		List<UserInfo> usersInfo = userDBService.getUserBySchool(schoolName);
-		System.out.println("=====deleteProjectById() " +  schoolName + mainCategory +  "=====");
+		System.out.println("=====deleteProjectById() " + schoolName + mainCategory + "=====");
 		int count = projectDBService.deleteProjectById(projectId);
-		if(count == 0) {
+		if (count == 0) {
 			responseMessage.setCode(ResponseCode.FAILED.ordinal());
 			responseMessage.setMessage("删除失败，请检查是否有权限！");
 		} else {
 			responseMessage.setCode(ResponseCode.SUCCESS.ordinal());
 			responseMessage.setMessage("删除项目成功， 项目ID为！" + projectId);
-			//更新user-project表,将已经上传的数量减一
-			//TODO
-			for(UserInfo user : usersInfo)
-				projectDBService.updateUploadCount(user.getUserName(), categoryCache.getIdByName(mainCategory), projectDBService.getUploadProjectCount(user.getUserName(), categoryCache.getIdByName(mainCategory)) - 1);
+			// 更新user-project表,将已经上传的数量减一
+			// TODO
+			for (UserInfo user : usersInfo)
+				projectDBService.updateUploadCount(user.getUserName(), categoryCache.getIdByName(mainCategory),
+						projectDBService.getUploadProjectCount(user.getUserName(),
+								categoryCache.getIdByName(mainCategory)) - 1);
 		}
 	}
 }
