@@ -33,11 +33,9 @@ public class AccountManageHandler {
 	@Autowired
 	private SchoolCache schoolCache;
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private CategoryCache categoryCache;
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private ProjectDBService projectDBService;
 

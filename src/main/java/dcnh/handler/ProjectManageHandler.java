@@ -314,6 +314,7 @@ public class ProjectManageHandler {
 	 * @return
 	 */
 	public void deleteProjectById(int projectId, String schoolName, String mainCategory, ResponseMessage responseMessage) {
+
 		List<UserInfo> usersInfo = userDBService.getUserBySchool(schoolName);
 		System.out.println("=====deleteProjectById() " +  schoolName + mainCategory +  "=====");
 		int count = projectDBService.deleteProjectById(projectId);
