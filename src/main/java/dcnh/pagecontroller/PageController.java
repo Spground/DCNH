@@ -11,36 +11,36 @@ public class PageController {
 
 	@RequestMapping("/dcnh")
 	public String getLoginPage() {
-		return "/dcnh/login";
+		return "dcnh/login";
 	}
 
 	@RequestMapping("/dcnh/schooladmin")
 	public String getSchoolAdminPage() {
-		return "/dcnh/schooladmin/schooladmin";
+		return "dcnh/schooladmin/schooladmin";
 	}
 
 	@RequestMapping("/dcnh/getuserinfopage")
 	public String getUserInfopage() {
-		return "/dcnh/userinfo";
+		return "dcnh/userinfo";
 	}
 
 	@RequestMapping("/dcnh/getshowuserinfopage")
 	public String getUserInfoPage() {
-		return "/dcnh/superadmin/showaccount";
+		return "dcnh/superadmin/showaccount";
 	}
 
 	@RequestMapping("/dcnh/getshowprojectpage")
 	public String getProjectShowpage() {
-		return "/dcnh/showallproject";
+		return "dcnh/showallproject";
 	}
 
 	@RequestMapping("/dcnh/getaddprjctpage")
 	public String getAddPrjctPage() {
-		return "/dcnh/projectmanagment/add_project";
+		return "dcnh/projectmanagment/add_project";
 	}
 
 	@RequestMapping("/dcnh/getaddprojectbutton")
 	public String getAddProjectPage() {
-		return "/dcnh/schooladmin/addproject";
+		return "dcnh/schooladmin/addproject";
 	}
 }

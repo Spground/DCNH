@@ -45,27 +45,9 @@ public class ProjectManagementController {
 		return result;
 	}
 
-	/*
-	 * @RequestMapping("/getallcategoryproject")
-	 * 
-	 * @ResponseBody public List<InnovationProject>
-	 * getAllCategoryProject(@RequestParam String category){
-	 * 
-	 * }
-	 */
-	/*
-	 * @RequestMapping("/dcnh/getallproject")
-	 * 
-	 * @ResponseBody public List<InnovationProject> getAllProject() { return
-	 * projectManageHandler.getAllProject(); }
-	 */
-
 	@RequestMapping("/dcnh/uploadattachement")
 	@ResponseBody
 	public ResponseMessage getAttachement(@RequestParam("attachement_file") MultipartFile file) throws IOException {
-		// System.out.println("##### fileName ### " + file.getName() + "
-		// original filename is " + file.getOriginalFilename() +
-		// file.getSize());
 		ResponseMessage response = new ResponseMessage();
 		String fileName = file.getOriginalFilename();
 		String id = attachementHandler.uploadFile(file, fileName);
@@ -79,15 +61,6 @@ public class ProjectManagementController {
 	@RequestMapping(value = "/dcnh/getattachement/{attachementId}")
 	public void getAttachement(@PathVariable String attachementId, HttpServletRequest request,
 			HttpServletResponse response) {
-		/*
-		 * String path = env.getProperty("rootPath"); log.info("path = " +
-		 * path); try { StreamUtils.copy( new FileInputStream(path +
-		 * filename+".doc") , response.getOutputStream() ); } catch (IOException
-		 * e) { log.warn("StreamUtils copy warn",e ); }
-		 * 
-		 * try { response.getOutputStream().flush(); } catch (IOException e) {
-		 * log.warn("getOutputStream flush warn",e ); }
-		 */
 		attachmentHandler.getFile(request, response, attachementId);
 	}
 

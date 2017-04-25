@@ -11,23 +11,23 @@ import dcnh.mode.ResponseMessage;
 
 @Component
 public class JudgementHandler {
-	
+
 	@Autowired
 	private JudgeDBServer judgeDBServer;
-	
-	public ResponseMessage addNewJudgement(BaseUser user,int score,int projectId){
+
+	public ResponseMessage addNewJudgement(BaseUser user, int score, int projectId) {
 		ResponseMessage response = new ResponseMessage();
-		if(user==null){
+		if (user == null) {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("用户未登录");
 			return response;
 		}
-		if(!user.getPermission().equals(UserPermission.JUDGE)){
+		if (!user.getPermission().equals(UserPermission.JUDGE)) {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("非专家用户不能评分");
 			return response;
 		}
-		if(score<0 || score>100){
+		if (score < 0 || score > 100) {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("评分范围错误,评分范围为0至100");
 			return response;
@@ -37,5 +37,5 @@ public class JudgementHandler {
 		response.setMessage("评价成功");
 		return response;
 	}
-	
+
 }

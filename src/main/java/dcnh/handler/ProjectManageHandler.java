@@ -29,7 +29,7 @@ import dcnh.mode.UserInfo;
 public class ProjectManageHandler {
 
 	@Autowired
-	private ProjectManagementInfo projectManagementInfo;
+	private ProjectManagementInfo pmConfig;
 
 	@Autowired
 	private UserDBService userDBService;
@@ -65,6 +65,11 @@ public class ProjectManageHandler {
 		return projectDBService.getProjectList(school);
 	}
 
+	/**
+	 * 专家分组
+	 * 
+	 * @return
+	 */
 	public ResponseMessage groupingProject() {
 		ResponseMessage response = new ResponseMessage();
 
@@ -73,7 +78,7 @@ public class ProjectManageHandler {
 		// int projectGroupCount = projectManagementInfo.getProjectGroupCount();
 
 		// 专家分组
-		int judgeGroupCount = projectManagementInfo.getJudgeGroupCount();
+		int judgeGroupCount = pmConfig.getJudgeGroupCount();
 
 		List<UserInfo> judgeList = userDBService.getAllUserInfo(UserPermission.JUDGE);
 		System.out.println("judgeList " + judgeList.size());

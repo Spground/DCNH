@@ -11,22 +11,22 @@ import dcnh.ApplicationContext;
 import dcnh.mode.ResponseMessage;
 
 /**
-*@author WuJie
-*@date 2017年4月23日下午10:12:39
-*@version 1.0
-**/
+ * @author WuJie
+ * @date 2017年4月23日下午10:12:39
+ * @version 1.0
+ **/
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@SpringBootTest(classes=ApplicationContext.class)
+@SpringBootTest(classes = ApplicationContext.class)
 public class ProjectManageHandlerTest {
 	@Autowired
 	private ProjectManageHandler handler;;
-	
+
 	@Test
 	public void testDeleteProjectByIdAndSchoolName() {
 		ResponseMessage response = new ResponseMessage();
 		handler.deleteProjectByIdAndSchoolName(13, "大连海事大学", response, "dmu", "创意作品");
-		assert(response.getCode() == 1);
+		assert (response.getCode() == 1);
 	}
 
 }

@@ -9,6 +9,7 @@ public class UserInfo {
 	private String phoneNumber = "";
 	private String school = "";
 	private String permission = "";
+
 	public UserInfo() {
 
 	}

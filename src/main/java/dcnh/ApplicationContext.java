@@ -1,4 +1,5 @@
 package dcnh;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @MapperScan("dcnh.mapper")
 @EnableAspectJAutoProxy
 public class ApplicationContext {
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(ApplicationContext.class, args);
 	}

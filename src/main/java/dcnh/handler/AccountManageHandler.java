@@ -78,10 +78,10 @@ public class AccountManageHandler {
 		int chuangyiCount = Integer.parseInt(userInfoMap.get("创意作品").trim());
 
 		System.out.println(userInfoMap);
-		
-		//先创建用户	
+
+		// 先创建用户
 		ResponseMessage response = addNewuser(userName, password, school, permission);
-		//更新用户-项目表
+		// 更新用户-项目表
 		if (response.getCode() == ResponseCode.SUCCESS.ordinal()) {
 			if (paperCount > 0) {
 				int categoryId = categoryCache.getIdByName("学术论文");

@@ -40,16 +40,17 @@ public class UserController {
 		UserInfo userinfo = new UserInfo(user);
 		return userinfo;
 	}
-	
+
 	/**
 	 * 注销
+	 * 
 	 * @param session
 	 * @return
 	 */
 	@RequestMapping("/dcnh/logout")
 	public String logout(HttpSession session) {
-		if(session.getAttribute(SessionKey.USERNAME.name()) != null)
+		if (session.getAttribute(SessionKey.USERNAME.name()) != null)
 			session.removeAttribute(SessionKey.USERNAME.name());
-		return "/dcnh/login";
+		return "dcnh/login";
 	}
 }

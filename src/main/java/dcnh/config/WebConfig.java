@@ -13,14 +13,13 @@ import interceptor.AuthenticationInterceptor;
  **/
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// addPathPatterns 用于添加拦截规则
-		registry.addInterceptor(new AuthenticationInterceptor())
-		.addPathPatterns("/dcnh/**").excludePathPatterns("/dcnh")
-		.excludePathPatterns("/dcnh/login");
+		registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/dcnh/**")
+				.excludePathPatterns("/dcnh").excludePathPatterns("/dcnh/login");
 		super.addInterceptors(registry);
 	}
-	
+
 }

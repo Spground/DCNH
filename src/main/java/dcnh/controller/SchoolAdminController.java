@@ -31,29 +31,31 @@ public class SchoolAdminController {
 			@RequestParam("attachement_id") String attachementId) {
 
 		// 先新建一个项目
-		log.info("###" + mainCategoryName + "###" +subcategory);
+		log.info("###" + mainCategoryName + "###" + subcategory);
 		// 保存文件
-		
+
 		// 将附件路径写库
 		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
 		ResponseMessage response = projectManageHandler.addNewProject(user, mainCategoryName, subcategory, teacher,
 				projectTitle, participators, attachementId);
 		return response;
 	}
-	
+
 	@RequestMapping(value = "/dcnh/schooladmin/deleteproject", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseMessage deleteProjectById(HttpSession session, @RequestParam("projectid") int proejctId, @RequestParam("maincategory") String mainCategory, @RequestParam("school") String school) {
+	public ResponseMessage deleteProjectById(HttpSession session, @RequestParam("projectid") int proejctId,
+			@RequestParam("maincategory") String mainCategory, @RequestParam("school") String school) {
 		log.info("###删除项目ID" + proejctId + "###" + "项目分类" + mainCategory + "所属学校" + school);
 		ResponseMessage response = new ResponseMessage();
 		BaseUser user = null;
-		if((user = (BaseUser)session.getAttribute(SessionKey.USERNAME.name())) == null) {
+		if ((user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name())) == null) {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("未登录，不能执行此操作！");
 		} else {
-			projectManageHandler.deleteProjectByIdAndSchoolName(proejctId, user.getSchool(), response, user.getUserName(), mainCategory);
+			projectManageHandler.deleteProjectByIdAndSchoolName(proejctId, user.getSchool(), response,
+					user.getUserName(), mainCategory);
 		}
-			
+
 		return response;
 	}
 }

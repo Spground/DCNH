@@ -11,32 +11,32 @@ public class SuperAdminPageController {
 
 	@RequestMapping("/dcnh/superadmin")
 	public String getSuperAdminPage() {
-		return "/dcnh/superadmin/superadmin";
+		return "dcnh/superadmin/superadmin";
 	}
 
 	@RequestMapping("/dcnh/getaccountmanagepage")
 	public String getAccountManagePage() {
-		return "/dcnh/superadmin/accountManage";
+		return "dcnh/superadmin/accountManage";
 	}
 
 	@RequestMapping("/dcnh/getcreateaccountpage")
 	public String getcreateAccount() {
-		return "/dcnh/superadmin/createaccount";
+		return "dcnh/superadmin/createaccount";
 	}
 
 	@RequestMapping("/dcnh/getprojectmanagepage")
 	public String getProjectManagePage() {
-		return "/dcnh/superadmin/projectManage";
+		return "dcnh/superadmin/projectManage";
 	}
 
 	@RequestMapping("/dcnh/resultsetting")
 	public String getResultsetting() {
-		return "/dcnh/superadmin/resultsetting";
+		return "dcnh/superadmin/resultsetting";
 	}
 
 	@RequestMapping("/dcnh/resultpage")
 	public String getResult() {
-		return "/dcnh/superadmin/result";
+		return "dcnh/superadmin/result";
 	}
 
 }

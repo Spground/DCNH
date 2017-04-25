@@ -11,18 +11,18 @@ import org.springframework.stereotype.Component;
 import dcnh.mapper.SchoolDBMapper;
 
 @Component
-public class SchoolCache implements InitializingBean{
-	
+public class SchoolCache implements InitializingBean {
+
 	@Autowired
 	private SchoolDBMapper schoolMapper;
-	
+
 	private HashSet<String> schoolNameSet = new HashSet<String>();
-	
-	public Set<String> getAllSchool(){
+
+	public Set<String> getAllSchool() {
 		return schoolNameSet;
 	}
-	
-	public boolean containsSchool(String schoolName){
+
+	public boolean containsSchool(String schoolName) {
 		return schoolNameSet.contains(schoolName);
 	}
 

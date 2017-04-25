@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import dcnh.global.ProjectManagementInfo;
 import dcnh.global.ResponseCode;
 import dcnh.global.SessionKey;
@@ -37,13 +38,13 @@ public class SuperAdminController {
 	private AccountManageHandler accountManageHandler;
 
 	@Autowired
-	private ProjectManagementInfo projectManagementInfo;
-
-	@Autowired
 	private ProjectManageHandler projectManageHandler;
 
 	@Autowired
 	private Environment env;
+
+	@Autowired
+	private ProjectManagementInfo pmConfig;
 
 	@RequestMapping("/dcnh/getuserbyschool")
 	@ResponseBody
@@ -58,9 +59,13 @@ public class SuperAdminController {
 	@ResponseBody
 	public ResponseMessage setProjectManagementInfo(@RequestParam int judgeGroupCount) {
 		ResponseMessage response = new ResponseMessage();
-		response.setCode(ResponseCode.SUCCESS.ordinal());
-		response.setMessage("设置成功");
-		projectManagementInfo.writeInfo(0, judgeGroupCount);
+		if (pmConfig.writeInfo(0, judgeGroupCount)) {
+			response.setCode(ResponseCode.SUCCESS.ordinal());
+			response.setMessage("设置成功");
+		} else {
+			response.setCode(ResponseCode.SUCCESS.ordinal());
+			response.setMessage("警告, 设置失败，请联系网站管理员。");
+		}
 		return response;
 	}
 
@@ -165,9 +170,10 @@ public class SuperAdminController {
 	public ResponseMessage addNewSchoolAccount(@RequestParam Map<String, String> userInfoMap) {
 		return accountManageHandler.addNewSchooluser(userInfoMap);
 	}
-	
+
 	/**
 	 * 超级管理员删除项目
+	 * 
 	 * @param session
 	 * @param projectId
 	 * @param schoolName

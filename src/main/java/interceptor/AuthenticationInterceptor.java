@@ -11,10 +11,10 @@ import dcnh.global.SessionKey;
 import lombok.extern.slf4j.Slf4j;
 
 /**
-*@author WuJie
-*@date 2017年4月21日上午9:42:54
-*@version 1.0
-**/
+ * @author WuJie
+ * @date 2017年4月21日上午9:42:54
+ * @version 1.0
+ **/
 @Slf4j
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
@@ -22,26 +22,27 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, ModelAndView arg3)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
 		// TODO Auto-generated method stub
-		 HttpSession session = request.getSession();
-		 System.out.println(request.getRequestURI());
-		 if(session.getAttribute(SessionKey.USERNAME.name()) == null) {
-			 log.warn("####access failed: beacause you do not login####");
-			 response.sendRedirect(request.getContextPath()+"/dcnh");
-			 return false;
-		 } else
-			 return true;
+		HttpSession session = request.getSession();
+		System.out.println(request.getRequestURI());
+		if (session.getAttribute(SessionKey.USERNAME.name()) == null) {
+			log.warn("####access failed: beacause you do not login####");
+			response.sendRedirect(request.getContextPath() + "/dcnh");
+			return false;
+		} else
+			return true;
 	}
 }
