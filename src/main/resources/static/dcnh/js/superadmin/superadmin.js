@@ -197,12 +197,12 @@ function showUserBySchool(){
 /*
  * 显示用户列表信息
  */
-function showUserInfo(param){
+function showUserInfo(param) {
 	$.ajax({
 		  url: '/dcnh/getshowuserinfopage',
 	      type: 'get',
 	      dataType: 'text',
-	      success: function(data){
+	      success: function(data) {
 	    	  $("#show").html(data);
 	    	  showUser  = new Vue({
 	    			el:'#userTable',
@@ -210,46 +210,35 @@ function showUserInfo(param){
 	    				userList:list
 	    			},
 	    			methods:{
-	    				deleteAccount:function(index){
-	    					if(index >= this.userList[index].length){
-	    						return;
-	    					}
-	    					//this.rooms[index].roomId
-	    					var userName = this.userList[index].userName;//thisuserList[index].userName;
-	    					
-	    					$.ajax({
-	    						  url: '/dcnh/deleteuser',
-	    					      type: 'get',
-	    					      dataType: 'json',
-	    					      data:{
-	    					    	  userName:userName
-	    					      },
-	    					      success: function(data){
-	    					    	 if(data.code==0)
-	    					    	 {
-	    					    		 alert(data.message);
-	    					    		/* if (index !== -1) {
-	    					    		   this.items.splice(index, 1)
-	    					    		 }*/
-	    					    	/*	 var newArray = new Array();
-	    					    		 for(var i in this.userList){
-	    					    			 if(i!=index){
-	    					    				 newArray.add(userList[i]);
-	    					    			 }
-	    					    		 }
-	    					    		 this.userList = newArray;
-	    					    		 alert("heheh");*/
-	    					    		 showUserInfo();
-	    					    	 }
-	    					    	 else{
-	    					    		 alert(data.message);
-	    					    	 }
-	    					    	 
-	    					      }
+	    				deleteAccount:function(index) {
+	    					console.log("index" + index);
+	    					modalConfirm("确认删除该账户吗？", function() {
+		    						if(index >= showUser.userList.length)
+			    						return;
+		    						console.log("userList")
+			    					console.log(showUser.userList);	 
+			    					var userName = showUser.userList[index].userName;
+		    						$.ajax({
+		    						  url: '/dcnh/deleteuser',
+		    					      type: 'get',
+		    					      dataType: 'json',
+		    					      data:{
+		    					    	  userName:userName
+		    					      },
+		    					      success: function(data) {
+		    					    	  modalAlert("删除成功！"); 
+		    					    	  getAllUserInfo();
+		    					      },
+		    					      error: function(data) {
+		    					    	  modalAlert("删除失败！");
+		    					      }
+		    					});
 	    					});
+	    					    					    					
 	    				}
 	    			}
 	    		});
+	    	  console.log("showUserInfo");
 	    	  if(param==1)
 	    		  getAllUserInfo();
 	    	  else

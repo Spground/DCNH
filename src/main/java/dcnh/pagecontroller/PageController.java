@@ -38,9 +38,4 @@ public class PageController {
 	public String getAddPrjctPage() {
 		return "dcnh/projectmanagment/add_project";
 	}
-
-	@RequestMapping("/dcnh/getaddprojectbutton")
-	public String getAddProjectPage() {
-		return "dcnh/schooladmin/addproject";
-	}
 }

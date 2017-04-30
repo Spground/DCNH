@@ -77,30 +77,32 @@ function showProjectpage(){
     			},
     			methods : {//绑定删除函数
 					deleteProject : function(index) {
-						if(!confirm("确认删除该项目吗？"))
-								return;
-						if(index >= this.projectList[index].length)
+						if(index >= showProject.projectList.length)
     						return;
-						//开始删除
-						var toDeleteProject = this.projectList[index];
-						console.log(this.projectList);
-						//开始删除项目
-						$.ajax({
-  						  url: '/dcnh/deleteproject',
-  					      type: 'post',
-  					      dataType: 'json',
-  					      data:{
-  					    	projectid: toDeleteProject.projectId,
-  					    	school: toDeleteProject.school,
-  					    	maincategory:toDeleteProject.mainCategory
-  					      },
-  					      success : function(data) {
-  					    	 alert("删除成功！");
-  					    	 console.log(data);
-  					    	 console.log(this.projectList);
-  					    	 showAllProject();
-  					      }
+						var toDeleteProject = showProject.projectList[index];
+						console.log(showProject.projectList);
+						modalConfirm("确认删除该项目吗？", function() {							
+							//开始删除项目
+							$.ajax({
+	  						  url: '/dcnh/deleteproject',
+	  					      type: 'post',
+	  					      dataType: 'json',
+	  					      data:{
+	  					    	projectid: toDeleteProject.projectId,
+	  					    	school: toDeleteProject.school,
+	  					    	maincategory:toDeleteProject.mainCategory
+	  					      },
+	  					      success : function(data) {
+	  					    	 modalAlert("删除成功！");
+	  					    	 showAllProject();
+	  					      },
+	  					      error: function(data) {
+	  					    	 modalAlert("删除失败！");
+	  					      }
+							});
 						});
+					
+						
   
 					}
     			}

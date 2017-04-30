@@ -43,31 +43,31 @@ function school_showProjectpage() {
 				},
 				methods : {//绑定删除函数
 					deleteProject : function(index) {
-						if(!confirm("确认删除该项目吗？"))
-								return;
-						if(index >= this.projectList[index].length)
-    						return;
-						//开始删除
-						var toDeleteProject = this.projectList[index];
-						console.log(this.projectList);
-						//开始删除项目
-						$.ajax({
-  						  url: '/dcnh/schooladmin/deleteproject',
-  					      type: 'post',
-  					      dataType: 'json',
-  					      data:{
-  					    	projectid: toDeleteProject.projectId,
-  					    	maincategory: toDeleteProject.mainCategory,
-  					    	school: toDeleteProject.school
-  					      },
-  					      success : function(data) {
-  					    	 alert(data.message);
-  					    	 console.log(data);
-  					    	 console.log(this.projectList);
-  					    	 school_showProject();
-  					      }
-						});
-  
+						console.log(index);
+						modalConfirm("确认删除该项目吗？", function() {
+							if(index >= school_showProjectVue.projectList.length)
+	    						return;
+							//开始删除
+							var toDeleteProject = school_showProjectVue.projectList[index];
+							//开始删除项目
+							$.ajax({
+	  						  url: '/dcnh/schooladmin/deleteproject',
+	  					      type: 'post',
+	  					      dataType: 'json',
+	  					      data:{
+	  					    	projectid: toDeleteProject.projectId,
+	  					    	maincategory: toDeleteProject.mainCategory,
+	  					    	school: toDeleteProject.school
+	  					      },
+	  					      success : function(data) {
+	  					    	 modalAlert("删除成功");
+	  					    	 school_showProject();
+	  					      },
+	  					      error: function(data) {
+	  					    	modalAlert("删除失败，请稍后再试");
+	  					      }
+							});
+						});						
 					}
 				}
 			});
