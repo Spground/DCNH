@@ -4,14 +4,15 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import dcnh.dbservice.UserDBService;
 import dcnh.global.Href;
 import dcnh.global.ResponseCode;
 import dcnh.global.SessionKey;
 import dcnh.global.UserPermission;
-import dcnh.mode.BaseUser;
-import dcnh.mode.ResponseMessage;
-import dcnh.myutil.SHA256;
+import dcnh.model.ResponseMessage;
+import dcnh.model.User;
+import dcnh.utils.SHA256;
 
 @Component
 public class LoginHandler {
@@ -29,7 +30,7 @@ public class LoginHandler {
 	 */
 	public ResponseMessage tryLogin(HttpSession session, String userName, String password) {
 		ResponseMessage responseMessage = new ResponseMessage();
-		BaseUser user = userDBService.getUserByUserName(userName);
+		User user = userDBService.getUserByUserName(userName);
 		if (user == null) {
 			responseMessage.setCode(ResponseCode.FAILED.ordinal());
 			responseMessage.setMessage("该用户不存在");
@@ -59,7 +60,7 @@ public class LoginHandler {
 		case SCHOOLADMIN: {
 			return Href.SCHOOL_ADMIN;
 		}
-		case JUDGE: {
+		case EXPERT: {
 			return Href.JUDGE;
 		}
 		default:

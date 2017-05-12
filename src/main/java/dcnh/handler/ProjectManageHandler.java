@@ -12,18 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import dcnh.cache.CategoryCache;
+import dcnh.cache.SchoolCache;
+import dcnh.dbservice.AssignmentDBService;
 import dcnh.dbservice.GroupingDBService;
 import dcnh.dbservice.ProjectDBService;
+import dcnh.dbservice.SchoolProjectCountDBService;
 import dcnh.dbservice.UserDBService;
 import dcnh.global.ProjectManagementInfo;
 import dcnh.global.ResponseCode;
 import dcnh.global.UserPermission;
-import dcnh.mode.BaseUser;
-import dcnh.mode.InnovationProject;
-import dcnh.mode.MainCategory;
-import dcnh.mode.ResponseMessage;
-import dcnh.mode.SubCategory;
-import dcnh.mode.UserInfo;
+import dcnh.mapper.AttachmentDBMapper;
+import dcnh.model.Attachment;
+import dcnh.model.Expert;
+import dcnh.model.MainCategory;
+import dcnh.model.Project;
+import dcnh.model.ResponseMessage;
+import dcnh.model.SubCategory;
+import dcnh.model.User;
+import dcnh.model.UserInfo;
 
 @Component
 public class ProjectManageHandler {
@@ -36,6 +42,12 @@ public class ProjectManageHandler {
 
 	@Autowired
 	private ProjectDBService projectDBService;
+	
+	@Autowired
+	private AssignmentDBService assignmentDBService;
+
+	@Autowired
+	private SchoolProjectCountDBService schoolProjectCountDBService;
 
 	@Autowired
 	private GroupingDBService groupingDBService;
@@ -43,17 +55,21 @@ public class ProjectManageHandler {
 	@Autowired
 	private CategoryCache categoryCache;
 
+	@Autowired
+	private SchoolCache schoolCache;
+
+	@Autowired
+	private AttachmentDBMapper attachementDBMapper;
+
 	public Map<String, List<String>> getAllCategory() {
 		Map<String, List<String>> result = new HashMap<>();
-		List<String> mainCategoryNames = categoryCache.getAllMainCategoryNames();
-		for (String mainCategoryName : mainCategoryNames) {
-			MainCategory mainCategory = categoryCache.getMainCategory(mainCategoryName);
-			List<SubCategory> subCategoryList = mainCategory.getAllsubCategorys();
-			List<String> subCategoryNameList = new LinkedList<String>();
-			for (SubCategory subCategory : subCategoryList) {
-				subCategoryNameList.add(subCategory.getName());
-			}
-			result.put(mainCategoryName, subCategoryNameList);
+		List<MainCategory> mainCategories = categoryCache.getAllMainCategories();
+		for (MainCategory mainCategory : mainCategories) {
+			String mainCategoryName = mainCategory.getMainCategoryName();
+			List<String> subCategoryNames = new ArrayList<>();
+			for(SubCategory subCategory : mainCategory.getSubCategories())
+				subCategoryNames.add(subCategory.getSubCategoryName());
+			result.put(mainCategoryName, subCategoryNames);
 		}
 		return result;
 	}
@@ -61,16 +77,17 @@ public class ProjectManageHandler {
 	/*
 	 * 查看某一学校的所有项目
 	 */
-	public List<InnovationProject> getAllProject(String school) {
-		return projectDBService.getProjectList(school);
+	public List<Project> getAllProjectsBySchoolName(String schoolName) {
+		return projectDBService.getProjectsBySchoolName(schoolName);
 	}
 
+	//---------------------- 项目-专家分配策略------------------------------------
 	/**
-	 * 专家分组
-	 * 
+	 * 指派项目给专家，并且满足给定的条件
+	 * TODO
 	 * @return
 	 */
-	public ResponseMessage groupingProject() {
+	public ResponseMessage assignProjectsToExperts() {
 		ResponseMessage response = new ResponseMessage();
 
 		// 首先清除原有的分组数据
@@ -80,7 +97,7 @@ public class ProjectManageHandler {
 		// 专家分组
 		int judgeGroupCount = pmConfig.getJudgeGroupCount();
 
-		List<UserInfo> judgeList = userDBService.getAllUserInfo(UserPermission.JUDGE);
+		List<UserInfo> judgeList = userDBService.getAllUserInfosByPermission(UserPermission.EXPERT);
 		System.out.println("judgeList " + judgeList.size());
 		int judgeCount = judgeList.size();
 		if (judgeGroupCount <= 0 || judgeCount < judgeGroupCount) {
@@ -104,15 +121,15 @@ public class ProjectManageHandler {
 		}
 
 		// 项目分组
-		ArrayList<List<InnovationProject>> projectGroup = new ArrayList<List<InnovationProject>>();
-		List<InnovationProject> allProjectList = projectDBService.getAllInnovationProject();
+		ArrayList<List<Project>> projectGroup = new ArrayList<List<Project>>();
+		List<Project> allProjectList = projectDBService.getAllInnovationProjects();
 		int projectCount = allProjectList.size();
 		int projectNumofGroup = projectCount / groupNum;// 大创项目每组多少个
-		Iterator<InnovationProject> projectIterator = allProjectList.iterator();
+		Iterator<Project> projectIterator = allProjectList.iterator();
 
 		for (int i = 0; i < groupNum; i++) {
 
-			List<InnovationProject> projectList = new LinkedList<InnovationProject>();
+			List<Project> projectList = new LinkedList<Project>();
 
 			for (int j = 0; j < projectNumofGroup; j++) {
 				projectList.add(projectIterator.next());
@@ -134,12 +151,16 @@ public class ProjectManageHandler {
 		return response;
 	}
 
-	public List<InnovationProject> getAllProject() {
-		return projectDBService.getAllInnovationProject();
+	public List<Project> getAllProjects() {
+		return projectDBService.getAllInnovationProjects();
 	}
 
-	public List<InnovationProject> getAllProjectOfJudge(String userName, int kind) {
-		return projectDBService.getProjectListOfJudge(userName, kind);
+	public List<Project> getAllAssignedProjectsOfExpert(Expert expert, int finished) {
+		if (finished == 0)
+			return assignmentDBService.getAllUnFinishedAssignedProjectsOfExpert(expert);
+		if (finished == 1)
+			return assignmentDBService.getAllFinishedAssignedProjectsOfExpert(expert);
+		return assignmentDBService.getAllFinishedAssignedProjectsOfExpert(expert);
 	}
 
 	public void sendAttachement(String attachementId, HttpServletRequest request, HttpServletResponse response) {
@@ -158,36 +179,35 @@ public class ProjectManageHandler {
 	 * @param attachementId
 	 * @return
 	 */
-	public ResponseMessage addNewProject(BaseUser user, String mainCategoryName, String subCategoryName, String teacher,
+	public ResponseMessage addNewProject(User user, String mainCategoryName, String subCategoryName, String teacher,
 			String projectTitle, List<String> participators, String attachementId) {
 
 		ResponseMessage response = new ResponseMessage();
-		InnovationProject project = new InnovationProject();
+		Project project = new Project();
 		System.out.println("##################  ResponseMessage addNewProject");
 
 		// 检查信息是否正确
 		if (!checkInfo(user, mainCategoryName, subCategoryName, teacher, response))
 			return response;
 
-		StringBuilder sb = new StringBuilder();
-		for (String str : participators)
-			sb.append(str);
-
-		project.setAttachmentId(attachementId);
+		Attachment attachement = attachementDBMapper.getAttachmentById(attachementId);
+		project.setAttachment(attachement);
 		project.setMainCategory(mainCategoryName);
-		project.setSchool(user.getSchool());
+		project.setSchoolName(user.getSchoolName());
 		project.setSubCategory(subCategoryName);
 		project.setTitle(projectTitle);
 		project.setTeacher(teacher);
-		project.setParticipators(sb.toString());
+		project.setUploader(user.getUserId());
+		project.setParticipators(participators);
 
-		int categoryId = categoryCache.getIdByName(mainCategoryName);
+		int mainCategoryId = categoryCache.getMainCategoryIdByMainCategoryName(mainCategoryName);
+		int schoolId = schoolCache.querySchoolIdBySchoolName(user.getSchoolName());
 		// 将该用户已经上传的项目更新
-		int uploadedCount = projectDBService.getUploadProjectCount(user.getUserName(), categoryId);
-		int maxUploadCount = projectDBService.getProjectCount(user.getUserName(), categoryId);
+		int uploadedCount = schoolProjectCountDBService.getUploadedProjectCount(schoolId, mainCategoryId);
+		int limitUploadCount = schoolProjectCountDBService.getLimitProjectCount(schoolId, mainCategoryId);
 
 		// 如果项目个数已经达到上限，就不允许再创建了
-		if (uploadedCount + 1 > maxUploadCount) {
+		if (uploadedCount + 1 > limitUploadCount) {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("新建项目失败,已上传的该类别项目个数已达上限。");
 			return response;
@@ -197,10 +217,10 @@ public class ProjectManageHandler {
 		// 创建项目
 		if (projectDBService.createNewProject(project) != 0) {
 			// 将上传数量更新
-			projectDBService.updateUploadCount(user.getUserName(), categoryId, uploadedCount + 1);
+			schoolProjectCountDBService.updateUploadedCount(schoolId, mainCategoryId, uploadedCount + 1);
 			response.setCode(ResponseCode.SUCCESS.ordinal());
-			response.setMessage(
-					String.format("新建项目成功，您已经上传项目%d个，剩余%d个。", uploadedCount + 1, maxUploadCount - (uploadedCount + 1)));
+			response.setMessage(String.format("新建项目成功，您已经上传项目%d个，剩余%d个。", uploadedCount + 1,
+					limitUploadCount - (uploadedCount + 1)));
 		} else {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("新建项目失败，请重新尝试。");
@@ -219,7 +239,7 @@ public class ProjectManageHandler {
 	 * @param response
 	 * @return
 	 */
-	protected boolean checkInfo(BaseUser user, String mainCategoryName, String subCategoryName, String attachementId,
+	protected boolean checkInfo(User user, String mainCategoryName, String subCategoryName, String attachementId,
 			ResponseMessage response) {
 
 		System.out.println("##################  checkInfo(BaseUser user,");
@@ -232,22 +252,19 @@ public class ProjectManageHandler {
 
 		System.out.println("##################  checkInfo(BaseUser user,*****");
 
-		int categoryId = categoryCache.getIdByName(mainCategoryName);
-		System.out.println("categoryId" + categoryId);
-		int projectCount = projectDBService.getProjectCount(user.getUserName(), categoryId);
-		if (projectCount <= 0) {
+		int mainCategoryId = categoryCache.getMainCategoryIdByMainCategoryName(mainCategoryName);
+		System.out.println("categoryId" + mainCategoryId);
+		int schoolId = schoolCache.querySchoolIdBySchoolName(user.getSchoolName());
+
+		int limitProjectCount = schoolProjectCountDBService.getLimitProjectCount(schoolId, mainCategoryId);
+		if (limitProjectCount <= 0) {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("未被分配该类型项目的名额");
 			return false;
 		}
 
-		int projectUploadCount = projectDBService.getUploadProjectCount(user.getUserName(), categoryId);
-		if (projectCount <= 0) {
-			response.setCode(ResponseCode.FAILED.ordinal());
-			response.setMessage("未被分配该类型项目的名额");
-			return false;
-		}
-		if (projectCount <= projectUploadCount) {
+		int projectUploadCount = schoolProjectCountDBService.getUploadedProjectCount(schoolId, mainCategoryId);
+		if (limitProjectCount <= projectUploadCount) {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("上传失败 已达到最大数量限制");
 			return false;
@@ -273,22 +290,22 @@ public class ProjectManageHandler {
 		for (String category : keySet) {
 			String value = "" + setInfoMap.get(category);
 			int proportion = Integer.valueOf(value);
-			categoryCache.updateMainCategory(category, proportion);
+			categoryCache.updateMainCategoryProportion(category, proportion);
 		}
 		response.setCode(ResponseCode.SUCCESS.ordinal());
 		response.setMessage("设置成功");
 		return response;
 	}
 
-	public Map<String, List<InnovationProject>> getResultProjectList(BaseUser user) {
+	public Map<String, List<Project>> getResultProjectList(User user) {
 
 		List<String> mainCategoryList = categoryCache.getAllMainCategoryNames();
-		HashMap<String, List<InnovationProject>> resultMap = new HashMap<String, List<InnovationProject>>();
+		HashMap<String, List<Project>> resultMap = new HashMap<String, List<Project>>();
 		for (String category : mainCategoryList) {
 			int sum = projectDBService.getProjectCountCategory(category);
-			MainCategory mainCategory = categoryCache.getMainCategory(category);
+			MainCategory mainCategory = categoryCache.getMainCategoryByMainCategoryName(category);
 			int projectCount = sum * mainCategory.getProportion() / 100;
-			List<InnovationProject> projectList = projectDBService.getProjectList(category, projectCount);
+			List<Project> projectList = projectDBService.getProjectList(category, projectCount);
 			resultMap.put(category, projectList);
 		}
 		return resultMap;
@@ -303,8 +320,8 @@ public class ProjectManageHandler {
 	public void deleteProjectByIdAndSchoolName(int projectId, String schoolName, ResponseMessage responseMessage,
 			String userName, String mainCategory) {
 
-		int count = projectDBService.deleteProjectByIdAndSchoolName(projectId, schoolName);
-
+		int count = projectDBService.deleteProjectById(projectId);
+		int schoolId = schoolCache.querySchoolIdBySchoolName(schoolName);
 		if (count == 0) {
 			responseMessage.setCode(ResponseCode.FAILED.ordinal());
 			responseMessage.setMessage("删除失败，请检查是否有权限！");
@@ -312,8 +329,10 @@ public class ProjectManageHandler {
 			responseMessage.setCode(ResponseCode.SUCCESS.ordinal());
 			responseMessage.setMessage("删除项目成功， 项目ID为！" + projectId);
 			// 更新user-project表,将已经上传的数量减一
-			projectDBService.updateUploadCount(userName, categoryCache.getIdByName(mainCategory),
-					projectDBService.getUploadProjectCount(userName, categoryCache.getIdByName(mainCategory)) - 1);
+			schoolProjectCountDBService.updateUploadedCount(schoolId,
+					categoryCache.getMainCategoryIdByMainCategoryName(mainCategory),
+					schoolProjectCountDBService.getUploadedProjectCount(schoolId,
+							categoryCache.getMainCategoryIdByMainCategoryName(mainCategory)) - 1);
 		}
 	}
 
@@ -325,9 +344,8 @@ public class ProjectManageHandler {
 	 */
 	public void deleteProjectById(int projectId, String schoolName, String mainCategory,
 			ResponseMessage responseMessage) {
-
-		List<UserInfo> usersInfo = userDBService.getUserBySchool(schoolName);
 		System.out.println("=====deleteProjectById() " + schoolName + mainCategory + "=====");
+		int schoolId = schoolCache.querySchoolIdBySchoolName(schoolName);
 		int count = projectDBService.deleteProjectById(projectId);
 		if (count == 0) {
 			responseMessage.setCode(ResponseCode.FAILED.ordinal());
@@ -335,12 +353,12 @@ public class ProjectManageHandler {
 		} else {
 			responseMessage.setCode(ResponseCode.SUCCESS.ordinal());
 			responseMessage.setMessage("删除项目成功， 项目ID为！" + projectId);
-			// 更新user-project表,将已经上传的数量减一
+			// 更新school_project_count表,将已经上传的数量减一
 			// TODO
-			for (UserInfo user : usersInfo)
-				projectDBService.updateUploadCount(user.getUserName(), categoryCache.getIdByName(mainCategory),
-						projectDBService.getUploadProjectCount(user.getUserName(),
-								categoryCache.getIdByName(mainCategory)) - 1);
+			schoolProjectCountDBService.updateUploadedCount(schoolId,
+					categoryCache.getMainCategoryIdByMainCategoryName(mainCategory),
+					schoolProjectCountDBService.getUploadedProjectCount(schoolId,
+							categoryCache.getMainCategoryIdByMainCategoryName(mainCategory)) - 1);
 		}
 	}
 }

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dcnh.global.ResponseCode;
 import dcnh.global.SessionKey;
 import dcnh.handler.ProjectManageHandler;
-import dcnh.mode.BaseUser;
-import dcnh.mode.ResponseMessage;
+import dcnh.model.ResponseMessage;
+import dcnh.model.User;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -35,7 +35,7 @@ public class SchoolAdminController {
 		// 保存文件
 
 		// 将附件路径写库
-		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+		User user = (User) session.getAttribute(SessionKey.USERNAME.name());
 		ResponseMessage response = projectManageHandler.addNewProject(user, mainCategoryName, subcategory, teacher,
 				projectTitle, participators, attachementId);
 		return response;
@@ -47,12 +47,12 @@ public class SchoolAdminController {
 			@RequestParam("maincategory") String mainCategory, @RequestParam("school") String school) {
 		log.info("###删除项目ID" + proejctId + "###" + "项目分类" + mainCategory + "所属学校" + school);
 		ResponseMessage response = new ResponseMessage();
-		BaseUser user = null;
-		if ((user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name())) == null) {
+		User user = null;
+		if ((user = (User) session.getAttribute(SessionKey.USERNAME.name())) == null) {
 			response.setCode(ResponseCode.FAILED.ordinal());
 			response.setMessage("未登录，不能执行此操作！");
 		} else {
-			projectManageHandler.deleteProjectByIdAndSchoolName(proejctId, user.getSchool(), response,
+			projectManageHandler.deleteProjectByIdAndSchoolName(proejctId, user.getSchoolName(), response,
 					user.getUserName(), mainCategory);
 		}
 

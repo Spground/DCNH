@@ -1,7 +1,7 @@
 var list = [
 		{
 			userName:"name",
-			school:"school",
+			schoolName:"schoolName",
 			phoneNumber:"1234",
 			email:"12@qq.com"
 		}

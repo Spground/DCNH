@@ -8,24 +8,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dcnh.global.SessionKey;
-import dcnh.handler.AccountManageHandler;
 import dcnh.handler.LoginHandler;
-import dcnh.mode.BaseUser;
-import dcnh.mode.ResponseMessage;
-import dcnh.mode.UserInfo;
+import dcnh.model.ResponseMessage;
+import dcnh.model.User;
+import dcnh.model.UserInfo;
 
 /*
- * 账户操作相关
+ * 账户相关
  */
 @Controller
 public class UserController {
 
 	@Autowired
 	private LoginHandler loginHandler;
-
-	@SuppressWarnings("unused")
-	@Autowired
-	private AccountManageHandler accountManageHandler;
 
 	@RequestMapping("/dcnh/login")
 	@ResponseBody
@@ -36,7 +31,7 @@ public class UserController {
 	@RequestMapping("/dcnh/getuserinfo")
 	@ResponseBody
 	public UserInfo getUserInfo(HttpSession session) {
-		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+		User user = (User) session.getAttribute(SessionKey.USERNAME.name());
 		UserInfo userinfo = new UserInfo(user);
 		return userinfo;
 	}

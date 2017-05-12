@@ -1,26 +1,20 @@
 package dcnh.handler;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import dcnh.mapper.AttachementDBMapper;
-import dcnh.mode.Attachement;
-import dcnh.myutil.UUIGenerator;
+import dcnh.mapper.AttachmentDBMapper;
+import dcnh.model.Attachment;
+import dcnh.utils.UUIGenerator;
 
 @Slf4j
 @Component
@@ -30,17 +24,19 @@ public class AttachementHandler {
 	private Environment env;
 
 	@Autowired
-	private AttachementDBMapper attachementDBMapper;
+	private AttachmentDBMapper attachementDBMapper;
 
-	public void getFile(HttpServletRequest request, HttpServletResponse response, String attachementId) {
-		Attachement attachement = attachementDBMapper.getAttachementById(attachementId);
-		// String path1 = env.getProperty("rootPath")+request.getRequestURI();
-		// log.info("path = " + path1);
+	public void getFile(HttpServletResponse response, String attachementId) {
+		Attachment attachement = attachementDBMapper.getAttachmentById(attachementId);
 		if (attachement == null) {
 			System.out.println("#### attachement is null &&&&&&");
+			return;
 		}
 		String path = attachement.getFilePath();
 		System.out.println("####### path %%%%% " + path);
+		String fileType = path.substring(path.lastIndexOf(".") + 1, path.length());
+		System.out.println("######file type ######" + fileType);
+		response.setContentType(String.format("application/%s;charset=UTF-8", fileType));
 		FileInputStream inputStream = null;
 		try {
 			inputStream = new FileInputStream(path);
@@ -82,10 +78,10 @@ public class AttachementHandler {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		Attachement attachement = new Attachement();
-		attachement.setAttachementId(uuid);
+		Attachment attachement = new Attachment();
+		attachement.setAttachmentId(uuid);
 		attachement.setFilePath(path + "/" + newFileName);
-		attachementDBMapper.insertAttachementDBMapper(attachement);
+		attachementDBMapper.insertAttachmentDBMapper(attachement);
 		return newFileName;
 	}
 

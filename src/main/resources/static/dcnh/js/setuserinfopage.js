@@ -21,8 +21,8 @@ function getUserInfo() {
 	    	 $("#fullname").val(data.userName);
 	    	 $("#email").val(data.email);
 	    	 $("#tel").val(data.phoneNumber);
-	    	 $("#school").val(data.school);
-	    	 $("#accountType").val(data.permission);
+	    	 $("#schoolName").val(data.schoolName);
+	    	 $("#accountType").val(data.permissionName);
 	      }
 	});
 }

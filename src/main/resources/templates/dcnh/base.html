@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="base_header(title, links, script)">
-<meta charset="UTF-8"/>
+<meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="renderer" content="webkit" />
 <title>后台管理</title>
@@ -17,7 +17,7 @@
 <link href="/dcnh/css/bootstrap.min.css" rel="stylesheet"></link>
 
 <!-- additional css content -->
-<th:block th:replace="${links}"/>
+<th:block th:replace="${links}" />
 
 <!-- base js content -->
 <script type='text/javascript' src="/dcnh/js/getcookie.js"></script>
@@ -29,50 +29,50 @@
 
 
 <!-- additional js content -->
-<th:block th:replace="${script}"/>
+<th:block th:replace="${script}" />
 
 </head>
 <body>
 	<div th:fragment="base_modal">
 		<div class="modal fade" id="alertModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title">提示</h4>
-				</div>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">提示</h4>
+					</div>
 
-				<div class="modal-body">
-					<p id="alertContent">One fine body&hellip;</p>
+					<div class="modal-body">
+						<p id="alertContent">One fine body&hellip;</p>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	<div class="modal fade" id="confirmModal" th:fragment="base_confirm_modal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title">提示</h4>
-				</div>
 
-				<div class="modal-body">
-					<p id="confirmContent">One fine body&hellip;</p>
+		<div class="modal fade" id="confirmModal" th:fragment="base_confirm_modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">提示</h4>
+					</div>
+
+					<div class="modal-body">
+						<p id="confirmContent">One fine body&hellip;</p>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary" id="confirmOkBtn">确定</button>
+					</div>
+
 				</div>
-				
-				<div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-			        <button type="button" class="btn btn-primary" id="confirmOkBtn">确定</button>
-     		 	</div>
-     		 	
 			</div>
 		</div>
-	</div>
 	</div>
 </body>
 </html>

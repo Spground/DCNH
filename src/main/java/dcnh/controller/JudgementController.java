@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dcnh.global.SessionKey;
-import dcnh.handler.JudgementHandler;
-import dcnh.mode.BaseUser;
-import dcnh.mode.ResponseMessage;
+import dcnh.handler.AssignmentHandler;
+import dcnh.model.ResponseMessage;
+import dcnh.model.User;
 
 @Controller
 public class JudgementController {
 
 	@Autowired
-	private JudgementHandler judgementhandler;
+	private AssignmentHandler judgementhandler;
 
 	@RequestMapping("/dcnh/addjudgement")
 	@ResponseBody
 	public ResponseMessage addJudgement(HttpSession session, @RequestParam int score, @RequestParam int projectId) {
-		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+		User user = (User) session.getAttribute(SessionKey.USERNAME.name());
 
-		return judgementhandler.addNewJudgement(user, score, projectId);
+		return judgementhandler.markProject(user, score, projectId);
 	}
 }
