@@ -10,10 +10,11 @@ import org.apache.ibatis.jdbc.SQL;
  * @version 1.0
  **/
 public class ProjectSqlProvider {
-	
+
 	/**
-	 * 通过条件查询所有的创新项目
-	 * 学校名schoolName, 主分类 mainCategory, 子分类 subCategory, 上传者 uploader, 项目状态 projectStatus, 指导教师 teacher,年度 year
+	 * 通过条件查询所有的创新项目 学校名schoolName, 主分类 mainCategory, 子分类 subCategory, 上传者
+	 * uploader, 项目状态 projectStatus, 指导教师 teacher,年度 year
+	 * 
 	 * @param where
 	 * @return
 	 */
@@ -25,22 +26,22 @@ public class ProjectSqlProvider {
 				if (where.containsKey("schoolName")) {
 					WHERE("school_name=#{schoolName}");
 				}
-				if(where.containsKey("mainCategory")) {
+				if (where.containsKey("mainCategory")) {
 					WHERE("maincategory=#{mainCategory}");
 				}
-				if(where.containsKey("subCategory")) {
+				if (where.containsKey("subCategory")) {
 					WHERE("subcategory=#{subCategory}");
 				}
-				if(where.containsKey("uploader")) {
+				if (where.containsKey("uploader")) {
 					WHERE("uploader=#{uploader}");
 				}
-				if(where.containsKey("projectStatus")) {
+				if (where.containsKey("projectStatus")) {
 					WHERE("project_status=#{projectStatus}");
 				}
-				if(where.containsKey("teacher")) {
+				if (where.containsKey("teacher")) {
 					WHERE("teacher=#{teacher}");
 				}
-				if(where.containsKey("year")) {
+				if (where.containsKey("year")) {
 					WHERE("year=#{year}");
 				}
 			}

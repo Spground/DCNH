@@ -16,6 +16,7 @@ docDoctypeUnclosed=2
 docDuplicateTag=2
 docInvalidChar=2
 docInvalidContent=2
+document-type//src/main/resources/templates/dcnh/base.html=
 document-type//src/main/resources/templates/dcnh/superadmin/superadmin.html=
 eclipse.preferences.version=1
 elemCoexistence=2
