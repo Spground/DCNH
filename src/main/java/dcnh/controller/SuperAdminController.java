@@ -18,17 +18,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import dcnh.global.ProjectManagementInfo;
 import dcnh.global.ResponseCode;
 import dcnh.global.SessionKey;
 import dcnh.global.UserPermission;
 import dcnh.handler.AccountManageHandler;
 import dcnh.handler.ProjectManageHandler;
-import dcnh.mode.BaseUser;
-import dcnh.mode.InnovationProject;
-import dcnh.mode.ResponseMessage;
-import dcnh.mode.UserInfo;
-import dcnh.myutil.HTMLToWord;
+import dcnh.model.Project;
+import dcnh.model.ResponseMessage;
+import dcnh.model.User;
+import dcnh.model.UserInfo;
+import dcnh.utils.HTMLToWord;
 
 @Controller
 @Slf4j
@@ -75,7 +77,7 @@ public class SuperAdminController {
 	@RequestMapping("/dcnh/grouping")
 	@ResponseBody
 	public ResponseMessage groupingProject() {
-		ResponseMessage response = projectManageHandler.groupingProject();
+		ResponseMessage response = projectManageHandler.assignProjectsToExperts();
 		return response;
 	}
 
@@ -84,8 +86,9 @@ public class SuperAdminController {
 	 */
 	@RequestMapping("/dcnh/getallproject")
 	@ResponseBody
-	public List<InnovationProject> getAllProject() {
-		return projectManageHandler.getAllProject();
+	@JsonIgnoreProperties(value={"attachment"})
+	public List<Project> getAllProject() {
+		return projectManageHandler.getAllProjects();
 	}
 
 	/*
@@ -93,12 +96,12 @@ public class SuperAdminController {
 	 */
 	@RequestMapping("/dcnh/resultprojectlist")
 	@ResponseBody
-	public Map<String, List<InnovationProject>> getResultProjectList(HttpSession session) {
-		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+	public Map<String, List<Project>> getResultProjectList(HttpSession session) {
+		User user = (User) session.getAttribute(SessionKey.USERNAME.name());
 		if (user != null && user.getPermission().equals(UserPermission.SUPERADMIN)) {
 			return projectManageHandler.getResultProjectList(user);
 		} else {
-			return new HashMap<String, List<InnovationProject>>();
+			return new HashMap<String, List<Project>>();
 		}
 	}
 
@@ -160,7 +163,7 @@ public class SuperAdminController {
 	@RequestMapping("/dcnh/getalluserinfo")
 	@ResponseBody
 	public List<UserInfo> getAllUserInfo(HttpSession session, @RequestParam String permission) {
-		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+		User user = (User) session.getAttribute(SessionKey.USERNAME.name());
 		return accountManageHandler.getAllUserInfo(user, permission);
 	}
 
@@ -185,8 +188,8 @@ public class SuperAdminController {
 	public ResponseMessage deleteProjectById(HttpSession session, @RequestParam("projectid") int projectId,
 			@RequestParam("school") String schoolName, @RequestParam("maincategory") String mainCategory) {
 		ResponseMessage responseMessage = new ResponseMessage();
-		BaseUser user = null;
-		if ((user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name())) == null) {
+		User user = null;
+		if ((user = (User) session.getAttribute(SessionKey.USERNAME.name())) == null) {
 			responseMessage.setCode(ResponseCode.FAILED.ordinal());
 			responseMessage.setMessage("未登录");
 			return responseMessage;

@@ -1,7 +1,7 @@
 package dcnh.global;
 
 public enum UserPermission implements GenericEnum {
-	SUPERADMIN(1, "系统管理员"), SCHOOLADMIN(2, "校级管理员"), JUDGE(3, "专家账户");
+	SUPERADMIN(1, "系统管理员"), SCHOOLADMIN(2, "校级管理员"), EXPERT(3, "专家账户");
 	private int code;
 	private String name;
 

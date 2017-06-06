@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 
 import dcnh.cache.CategoryCache;
 import dcnh.cache.SchoolCache;
-import dcnh.dbservice.ProjectDBService;
+import dcnh.dbservice.SchoolProjectCountDBService;
 import dcnh.dbservice.UserDBService;
 import dcnh.global.ResponseCode;
 import dcnh.global.SessionKey;
 import dcnh.global.UserPermission;
-import dcnh.mode.BaseUser;
-import dcnh.mode.ResponseMessage;
-import dcnh.mode.UserInfo;
-import dcnh.myutil.SHA256;
+import dcnh.model.ResponseMessage;
+import dcnh.model.User;
+import dcnh.model.UserInfo;
+import dcnh.utils.SHA256;
 
 /*
  * 各种类型账户的增删改查
@@ -35,15 +35,15 @@ public class AccountManageHandler {
 
 	@Autowired
 	private CategoryCache categoryCache;
-
+	
 	@Autowired
-	private ProjectDBService projectDBService;
+	private SchoolProjectCountDBService schoolProjectCountDBService;
 
-	public ResponseMessage addNewuser(String userName, String passowrd, String school, String permission) {
+	public ResponseMessage addNewuser(String userName, String passowrd, String schoolName, String permission) {
 		ResponseMessage response = new ResponseMessage();
-		BaseUser user = new BaseUser();
+		User user = new User();
 		user.setPassword(SHA256.encode(passowrd));
-		user.setSchool(school);
+		user.setSchoolName(schoolName);
 		user.setUserName(userName);
 
 		if (!checkUserInfo(user, permission, response)) {
@@ -69,38 +69,37 @@ public class AccountManageHandler {
 	public ResponseMessage addNewSchooluser(Map<String, String> userInfoMap) {
 		String userName = userInfoMap.get("userName");
 		String password = userInfoMap.get("password");
-		String school = userInfoMap.get("school");
+		String schoolName = userInfoMap.get("school");
 		String permission = userInfoMap.get("permission");
+		int schoolId = schoolCache.querySchoolIdBySchoolName(schoolName);
 
 		int paperCount = Integer.parseInt(userInfoMap.get("学术论文").trim());
 		int showProjectCount = Integer.parseInt(userInfoMap.get("展示项目").trim());
 		int chuangyeCount = Integer.parseInt(userInfoMap.get("创业直通车项目").trim());
 		int chuangyiCount = Integer.parseInt(userInfoMap.get("创意作品").trim());
-
 		System.out.println(userInfoMap);
-
 		// 先创建用户
-		ResponseMessage response = addNewuser(userName, password, school, permission);
+		ResponseMessage response = addNewuser(userName, password, schoolName, permission);
 		// 更新用户-项目表
 		if (response.getCode() == ResponseCode.SUCCESS.ordinal()) {
 			if (paperCount > 0) {
-				int categoryId = categoryCache.getIdByName("学术论文");
-				projectDBService.saveUserProject(userName, categoryId, paperCount);
+				int maincategoryId = categoryCache.getMainCategoryIdByMainCategoryName("学术论文");
+				schoolProjectCountDBService.saveSchoolProjectCountInfo(schoolId, maincategoryId, paperCount);
 			}
 
 			if (showProjectCount > 0) {
-				int categoryId = categoryCache.getIdByName("展示项目");
-				projectDBService.saveUserProject(userName, categoryId, showProjectCount);
+				int maincategoryId = categoryCache.getMainCategoryIdByMainCategoryName("展示项目");
+				schoolProjectCountDBService.saveSchoolProjectCountInfo(schoolId, maincategoryId, showProjectCount);
 			}
 
 			if (chuangyeCount > 0) {
-				int categoryId = categoryCache.getIdByName("创业直通车项目");
-				projectDBService.saveUserProject(userName, categoryId, chuangyeCount);
+				int maincategoryId = categoryCache.getMainCategoryIdByMainCategoryName("创业直通车项目");
+				schoolProjectCountDBService.saveSchoolProjectCountInfo(schoolId, maincategoryId, chuangyeCount);
 			}
 
 			if (chuangyiCount > 0) {
-				int categoryId = categoryCache.getIdByName("创意作品");
-				projectDBService.saveUserProject(userName, categoryId, chuangyiCount);
+				int maincategoryId = categoryCache.getMainCategoryIdByMainCategoryName("创意作品");
+				schoolProjectCountDBService.saveSchoolProjectCountInfo(schoolId, maincategoryId, chuangyiCount);
 			}
 		}
 		return response;
@@ -108,7 +107,7 @@ public class AccountManageHandler {
 
 	public ResponseMessage deleteAccount(HttpSession session, String userName) {
 		ResponseMessage responseMessage = new ResponseMessage();
-		BaseUser user = (BaseUser) session.getAttribute(SessionKey.USERNAME.name());
+		User user = (User) session.getAttribute(SessionKey.USERNAME.name());
 		if (!user.getPermission().equals(UserPermission.SUPERADMIN)) {
 			responseMessage.setCode(ResponseCode.FAILED.ordinal());
 			responseMessage.setMessage("无权删除用户");
@@ -132,7 +131,7 @@ public class AccountManageHandler {
 		}
 	}
 
-	public List<UserInfo> getAllUserInfo(BaseUser user, String permission) {
+	public List<UserInfo> getAllUserInfo(User user, String permission) {
 		List<UserInfo> userList = new LinkedList<UserInfo>();
 		if (user == null || !user.getPermission().equals(UserPermission.SUPERADMIN)) {
 			return userList;
@@ -140,15 +139,15 @@ public class AccountManageHandler {
 		UserPermission userPermission = UserPermission.stringToEnum(permission);
 		if (userPermission == null)
 			return userList;
-		userList = userDBService.getAllUserInfo(userPermission);
+		userList = userDBService.getAllUserInfosByPermission(userPermission);
 		return userList;
 	}
 
 	public List<UserInfo> getAllUserInfoBySchool(String schoolName) {
-		return userDBService.getUserBySchool(schoolName);
+		return userDBService.getUserInfosBySchool(schoolName);
 	}
 
-	private boolean checkUserInfo(BaseUser user, String permission, ResponseMessage response) {
+	private boolean checkUserInfo(User user, String permission, ResponseMessage response) {
 
 		// 检查用户权限设置
 		UserPermission userPermission = UserPermission.stringToEnum(permission);
@@ -159,8 +158,8 @@ public class AccountManageHandler {
 		}
 
 		if (userPermission.equals(UserPermission.SCHOOLADMIN)) {
-			if (user.getSchool() == null || user.getSchool().isEmpty()
-					|| !schoolCache.containsSchool(user.getSchool())) {
+			if (user.getSchoolName() == null || user.getSchoolName().isEmpty()
+					|| !schoolCache.containsSchool(user.getSchoolName())) {
 				response.setCode(ResponseCode.FAILED.ordinal());
 				response.setMessage("学校名称设置错误");
 				return false;

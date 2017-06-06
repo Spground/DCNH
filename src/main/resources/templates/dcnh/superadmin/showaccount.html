@@ -13,7 +13,7 @@
 		<tbody>
 			<tr v-for="user in userList">
 				<td>{{user.userName}}</td>
-				<td>{{user.school}}</td>
+				<td>{{user.schoolName}}</td>
 				<td>{{user.phoneNumber}}</td>
 				<td>{{user.email}}</td>
 				<td><button type="button" class="btn btn-danger" v-on:click="deleteAccount($index)">删除</button></td>

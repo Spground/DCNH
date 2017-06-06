@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import dcnh.cache.CategoryCache;
 import dcnh.handler.ProjectManageHandler;
-import dcnh.mode.ResponseMessage;
+import dcnh.model.ResponseMessage;
 
 /*
  * 设置大创项目种类，大类和小类

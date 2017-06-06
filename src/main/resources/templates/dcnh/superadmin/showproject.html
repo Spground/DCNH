@@ -16,13 +16,13 @@
 		<tbody>
 			<tr v-for="project in projectList">
 				<td>{{project.title}}</td>
-				<td>{{project.school}}</td>
+				<td>{{project.schoolName}}</td>
 				<td>{{project.participators}}</td>
 				<td>{{project.teacher}}</td>
 				<td>{{project.mainCategory}}</td>
 				<td>{{project.subCategory}}</td>
 				<td>{{project.score}}</td>
-				<td><a v-bind:href="project.attachmentId">附件</a></td>
+				<td><a v-bind:href="project.attachment.attachmentId">附件</a></td>
 			</tr>
 		</tbody>
 	</table>

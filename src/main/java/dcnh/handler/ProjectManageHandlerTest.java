@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import dcnh.ApplicationContext;
-import dcnh.mode.ResponseMessage;
+import dcnh.model.ResponseMessage;
 
 /**
  * @author WuJie
@@ -27,6 +27,11 @@ public class ProjectManageHandlerTest {
 		ResponseMessage response = new ResponseMessage();
 		handler.deleteProjectByIdAndSchoolName(13, "大连海事大学", response, "dmu", "创意作品");
 		assert (response.getCode() == 1);
+	}
+	
+	@Test
+	public void testGetAllCategory() {
+		System.err.println(handler.getAllCategory());
 	}
 
 }
